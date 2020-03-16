@@ -35,7 +35,13 @@ pybind11_add_module(geant4
   pyG4VUserDetectorConstruction.cpp
   pyPhysicsLists.cpp
   pyG4VUserPhysicsList.cpp
-  # pyG4RunManager.cpp 
+  pyG4VUserPrimaryGeneratorAction.cpp
+  pyG4VUserActionInitialization.cpp
+  pyG4VSteppingVerbose.cpp
+  pyG4RunManager.cpp 
+  pyG4ParticleGun.cpp
+  pyG4VPrimaryGenerator.cpp
+  pyG4Event.cpp
   )
 
 target_link_libraries(geant4 PRIVATE pybind11::module ${Geant4_LIBRARIES})

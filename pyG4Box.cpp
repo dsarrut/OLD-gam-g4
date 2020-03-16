@@ -15,6 +15,7 @@ void init_G4Box(py::module & m) {
     .def("GetXHalfLength", &G4Box::GetXHalfLength)
     .def("GetYHalfLength", &G4Box::GetYHalfLength)
     .def("GetZHalfLength", &G4Box::GetZHalfLength)
+
     .def("SetXHalfLength", &G4Box::SetXHalfLength)
     .def("SetYHalfLength", &G4Box::SetYHalfLength)
     .def("SetZHalfLength", &G4Box::SetZHalfLength)

@@ -42,7 +42,7 @@ namespace pyPhysicsLists {
   static std::vector<std::string> plList;
 
   void AddPhysicsList(const G4String& plname) {
-    std::cout << "AddPhysicsList " << plname << std::endl;
+    // std::cout << "AddPhysicsList " << plname << std::endl;
     plList.push_back(plname);
   }
 

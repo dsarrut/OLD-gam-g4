@@ -35,3 +35,14 @@ Some hints boost-python vs pybind11
 
 - debug
   python -q -X faulthandler
+
+- .staticmethod("XXX")
+  --> normal .def ??
+
+
+- overloading methods
+  --> 
+  (for example)
+   py::overload_cast<G4VUserPrimaryGeneratorAction*>(&G4RunManager::SetUserAction))
+
+

@@ -42,6 +42,8 @@ pybind11_add_module(geant4
   pyG4ParticleGun.cpp
   pyG4VPrimaryGenerator.cpp
   pyG4Event.cpp
+  pyG4ParticleTable.cpp
+  pyG4ParticleDefinition.cpp
   )
 
 target_link_libraries(geant4 PRIVATE pybind11::module ${Geant4_LIBRARIES})

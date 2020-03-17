@@ -18,6 +18,7 @@ void init_G4RunManager(py::module & m) {
 
     // test with known arg type
     .def("Initialize", &G4RunManager::Initialize)
+    
     .def("RestoreRandomNumberStatus", &G4RunManager::RestoreRandomNumberStatus)
 
 

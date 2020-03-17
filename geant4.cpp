@@ -26,13 +26,17 @@ void init_G4RunManager(py::module &);
 void init_G4VUserPhysicsList(py::module &);
 void init_G4PhysicsLists(py::module &);
 
+// Source
+void init_G4ParticleGun(py::module &);
+void init_G4VPrimaryGenerator(py::module &);
+void init_G4Event(py::module &);
+void init_G4ParticleTable(py::module &);
+void init_G4ParticleDefinition(py::module &);
+
 // Actions
 void init_G4VUserPrimaryGeneratorAction(py::module &);
 void init_G4VSteppingVerbose(py::module &);
 void init_G4VUserActionInitialization(py::module &);
-void init_G4ParticleGun(py::module &);
-void init_G4VPrimaryGenerator(py::module &);
-void init_G4Event(py::module &);
 
 PYBIND11_MODULE(geant4, m) {
 
@@ -54,12 +58,15 @@ PYBIND11_MODULE(geant4, m) {
   init_G4VUserPhysicsList(m);
   init_G4PhysicsLists(m);
 
-  init_G4VUserPrimaryGeneratorAction(m);
-  init_G4VSteppingVerbose(m);
-  init_G4VUserActionInitialization(m);
   init_G4Event(m);
   init_G4VPrimaryGenerator(m);
   init_G4ParticleGun(m);
+  init_G4ParticleDefinition(m);
+  init_G4ParticleTable(m);
+
+  init_G4VUserPrimaryGeneratorAction(m);
+  init_G4VSteppingVerbose(m);
+  init_G4VUserActionInitialization(m);
   
   init_G4RunManager(m);
 }

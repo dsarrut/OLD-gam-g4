@@ -21,7 +21,6 @@ void init_G4RunManager(py::module & m) {
     
     .def("RestoreRandomNumberStatus", &G4RunManager::RestoreRandomNumberStatus)
 
-
     .def("SetUserInitialization",
          py::overload_cast<G4VUserDetectorConstruction*>(&G4RunManager::SetUserInitialization))
 
@@ -44,14 +43,15 @@ void init_G4RunManager(py::module & m) {
       = &G4RunManager::SetUserAction;
       void (G4RunManager::*f6_SetUserAction)(G4UserSteppingAction*)*/
 
+    .def("SetVerboseLevel", &G4RunManager::SetVerboseLevel)
+    .def("GetVerboseLevel", &G4RunManager::GetVerboseLevel)
+
     /*
       .def("GetRunManager", &G4RunManager::GetRunManager,
       "Get an instance of G4RunManager",
       return_value_policy<reference_existing_object>())
       .staticmethod("GetRunManager")
       // ---
-      .def("SetVerboseLevel", &G4RunManager::SetVerboseLevel)
-      .def("GetVerboseLevel", &G4RunManager::GetVerboseLevel)
       // ---
       .def("Initialize",      &G4RunManager::Initialize)
       .def("BeamOn",          &G4RunManager::BeamOn,

@@ -6,67 +6,55 @@ namespace py = pybind11;
 
 #include "G4VUserPhysicsList.hh"
 
-// using namespace boost::python;
+// https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+// Needed helper class because of the pure virtual method
+class PyG4VUserPhysicsList : public G4VUserPhysicsList {
+public:
+  /* Inherit the constructors */
+  using G4VUserPhysicsList::G4VUserPhysicsList;
 
-// // ====================================================================
-// // thin wrappers
-// // ====================================================================
-// namespace pyG4VUserPhysicsList {
+  /* Trampoline (need one for each virtual function) */
+  void ConstructParticle() override {
+    PYBIND11_OVERLOAD_PURE(
+                           void, /* Return type */
+                           G4VUserPhysicsList, /* Parent class */
+                           ConstructParticle, /* Name of function in C++ (must match Python name) */
+                           /* No argument here  */
+                           );
+  }
 
-// struct CB_G4VUserPhysicsList :
-//   G4VUserPhysicsList, wrapper<G4VUserPhysicsList> {
+  void ConstructProcess() override {
+    PYBIND11_OVERLOAD_PURE(
+                           void, /* Return type */
+                           G4VUserPhysicsList, /* Parent class */
+                           ConstructProcess, /* Name of function in C++ (must match Python name) */
+                           /* No argument here  */
+                           );
+  }
 
-//   void ConstructParticle() {
-//     get_override("ConstructParticle")();
-//   }
+  void SetCuts() override {
+    PYBIND11_OVERLOAD_PURE(
+                           void, /* Return type */
+                           G4VUserPhysicsList, /* Parent class */
+                           SetCuts, /* Name of function in C++ (must match Python name) */
+                           /* No argument here  */
+                           );
+  }
 
-//   void ConstructProcess() {
-//     get_override("ConstructProcess")();
-//   }
+  
+};
 
-//   void SetCuts() {
-//     get_override("SetCuts")();
-//   }
-// };
-
-// SetCutValue
-// void (G4VUserPhysicsList::*f1_SetCutValue)(G4double, const G4String&)
-//   = &G4VUserPhysicsList::SetCutValue;
-// void (G4VUserPhysicsList::*f2_SetCutValue)(G4double, const G4String&,
-// 					   const G4String&)
-//   = &G4VUserPhysicsList::SetCutValue;
-
-// // SetParticleCuts
-// void (G4VUserPhysicsList::*f1_SetParticleCuts)(G4double,
-//                                                G4ParticleDefinition*,
-//                                                G4Region*)
-//   = &G4VUserPhysicsList::SetParticleCuts;
-// void (G4VUserPhysicsList::*f2_SetParticleCuts)(G4double,
-//                                                G4ParticleDefinition*,
-//                                                G4Region*)
-//   = &G4VUserPhysicsList::SetParticleCuts;
-
-// // StorePhysicsTable
-// BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(f_StorePhysicsTable,
-// 				                               StorePhysicsTable, 0, 1)
-// // SetParticleCuts
-// BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(f_SetParticleCuts,
-// 				                               SetParticleCuts, 2, 3)
-
-// }
-
-// using namespace pyG4VUserPhysicsList;
 
 void init_G4VUserPhysicsList(py::module & m) {
 
-  py::class_<G4VUserPhysicsList>(m, "G4VUserPhysicsList")
+  py::class_<G4VUserPhysicsList, PyG4VUserPhysicsList>(m, "G4VUserPhysicsList")
 
+    .def(py::init())
+
+    // pure virtual 
     .def("ConstructParticle", &G4VUserPhysicsList::ConstructParticle)
-    //pure_virtual(&G4VUserPhysicsList::ConstructProcess))
     .def("ConstructProcess", &G4VUserPhysicsList::ConstructParticle)
-    //pure_virtual(&G4VUserPhysicsList::ConstructProcess))
     .def("SetCuts", &G4VUserPhysicsList::SetCuts)
-    //pure_virtual(&G4VUserPhysicsList::SetCuts))
 
     .def("SetDefaultCutValue", &G4VUserPhysicsList::SetDefaultCutValue)
     .def("GetDefaultCutValue", &G4VUserPhysicsList::GetDefaultCutValue)

@@ -19,8 +19,8 @@ public:
 
   /* Trampoline (need one for each virtual function) */
   G4int GetCopyNo() const override {
-    PYBIND11_OVERLOAD_PURE(
-                           G4int, // Return type 
+    std::cout << "I am in PyG4VPhysicalVolume::GetCopyNo" << std::endl;
+    PYBIND11_OVERLOAD_PURE(G4int, // Return type 
                            G4VPhysicalVolume, // Parent class 
                            GetCopyNo, // Name of function in C++ (must match Python name) 
                            // No argument here  
@@ -102,7 +102,14 @@ void init_G4VPhysicalVolume(py::module & m) {
     //      return_value_policy<return_by_value>())
 
     .def("SetCopyNo",           &G4VPhysicalVolume::SetCopyNo)
+
     .def("GetCopyNo",           &G4VPhysicalVolume::GetCopyNo)
+    /*
+    .def("GetCopyNo",  [](const G4VPhysicalVolume * base) {
+                         std::cout << "G4VPhysicalVolume:: GetCopyNo" << std::endl;
+                         return base->GetCopyNo();
+                       })
+    */
     
     .def("IsMany",              &G4VPhysicalVolume::IsMany)
     .def("IsReplicated",        &G4VPhysicalVolume::IsReplicated)

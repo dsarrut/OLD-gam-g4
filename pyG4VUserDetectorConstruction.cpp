@@ -16,8 +16,8 @@ public:
 
   /* Trampoline (need one for each virtual function) */
   G4VPhysicalVolume * Construct() override {
-    PYBIND11_OVERLOAD_PURE(
-                           G4VPhysicalVolume*, /* Return type */
+    std::cout << "I am in PyG4VUserDetectorConstruction::Construct" << std::endl;
+    PYBIND11_OVERLOAD_PURE(G4VPhysicalVolume*, /* Return type */
                            G4VUserDetectorConstruction, /* Parent class */
                            Construct, /* Name of function in C++ (must match Python name) */
                            /* No argument here  */
@@ -31,8 +31,8 @@ void init_G4VUserDetectorConstruction(py::module & m) {
   
   py::class_<G4VUserDetectorConstruction, PyG4VUserDetectorConstruction>(m, "G4VUserDetectorConstruction")
 
-    .def(py::init())
-    .def("Construct", &G4VUserDetectorConstruction::Construct, py::return_value_policy::reference)
+    .def(py::init_alias())
+    .def("Construct", &G4VUserDetectorConstruction::Construct)//, py::return_value_policy::reference)
     
     ;
 }

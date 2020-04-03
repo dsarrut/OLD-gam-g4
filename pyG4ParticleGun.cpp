@@ -41,6 +41,8 @@ void init_G4ParticleGun(py::module & m) {
 
     .def("SetParticleEnergy", &G4ParticleGun::SetParticleEnergy)
 
+    .def("SetParticlePosition",   &G4ParticleGun::SetParticlePosition)
+
     /*
 
       void SetParticleDefinition

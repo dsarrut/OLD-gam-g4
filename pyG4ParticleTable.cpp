@@ -76,9 +76,12 @@ void init_G4ParticleTable(py::module & m) {
   */
 
   
+  //  py::class_<G4ParticleTable, std::unique_ptr<G4ParticleTable, py::nodelete>>(m, "G4ParticleTable")
   py::class_<G4ParticleTable>(m, "G4ParticleTable")
 
-    .def("GetParticleTable",  &G4ParticleTable::GetParticleTable, py::return_value_policy::reference)
+    .def("GetParticleTable",
+         &G4ParticleTable::GetParticleTable,
+         py::return_value_policy::reference)
     //         return_value_policy<reference_existing_object>())
 
 
@@ -98,7 +101,7 @@ void init_G4ParticleTable(py::module & m) {
          
     
     //.staticmethod("GetParticleTable")
-    .def("GetParticleTable", &G4ParticleTable::GetParticleTable)
+    //.def("GetParticleTable", &G4ParticleTable::GetParticleTable)
 
     //.def("contains",          f1_contains)
     //.def("contains",          f2_contains)
@@ -114,7 +117,9 @@ void init_G4ParticleTable(py::module & m) {
 
     .def("FindParticle",
          //py::overload_cast<G4String>(&G4ParticleTable::FindParticle))//,
-         (G4ParticleDefinition * (G4ParticleTable::*)(const G4String&)) &G4ParticleTable::FindParticle,
+         (G4ParticleDefinition * (G4ParticleTable::*)(const G4String&))
+         &G4ParticleTable::FindParticle,
+         py::return_value_policy::reference_internal,
          py::arg("particle_name"))
     
     /*

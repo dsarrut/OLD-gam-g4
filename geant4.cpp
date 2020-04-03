@@ -6,6 +6,7 @@ namespace py = pybind11;
 void init_G4ThreeVector(py::module &);
 void init_G4String(py::module &);
 void init_G4RotationMatrix(py::module &);
+void init_Randomize(py::module &);
 
 // Materials
 void init_G4NistManager(py::module &);
@@ -24,6 +25,7 @@ void init_G4RunManager(py::module &);
 
 // Physict lists
 void init_G4VUserPhysicsList(py::module &);
+void init_G4VModularPhysicsList(py::module &);
 void init_G4PhysicsLists(py::module &);
 
 // Source
@@ -38,11 +40,15 @@ void init_G4VUserPrimaryGeneratorAction(py::module &);
 void init_G4VSteppingVerbose(py::module &);
 void init_G4VUserActionInitialization(py::module &);
 
+// Interface
+void init_G4UImanager(py::module &);
+
 PYBIND11_MODULE(geant4, m) {
 
   init_G4String(m);
   init_G4ThreeVector(m);
   init_G4RotationMatrix(m);  
+  init_Randomize(m);
 
   init_G4NistManager(m);
   init_G4Material(m);
@@ -56,6 +62,7 @@ PYBIND11_MODULE(geant4, m) {
   init_G4VUserDetectorConstruction(m);
 
   init_G4VUserPhysicsList(m);
+  init_G4VModularPhysicsList(m);
   init_G4PhysicsLists(m);
 
   init_G4Event(m);
@@ -67,6 +74,8 @@ PYBIND11_MODULE(geant4, m) {
   init_G4VUserPrimaryGeneratorAction(m);
   init_G4VSteppingVerbose(m);
   init_G4VUserActionInitialization(m);
+
+  init_G4UImanager(m);
   
   init_G4RunManager(m);
 }

@@ -46,7 +46,8 @@ Some hints boost-python vs pybind11
    py::overload_cast<G4VUserPrimaryGeneratorAction*>(&G4RunManager::SetUserAction))
 
 
-
 - pure virtual need a trampoline class
   https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+
+
 

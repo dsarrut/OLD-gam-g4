@@ -33,6 +33,12 @@ void init_G4VUserDetectorConstruction(py::module & m) {
 
     .def(py::init_alias())
     .def("Construct", &G4VUserDetectorConstruction::Construct)//, py::return_value_policy::reference)
-    
+
+    /*
+      .def("__del__",
+      [](G4VUserDetectorConstruction * ) {
+      std::cout << "py G4VUserDetectorConstruction destructor" << std::endl;
+      })
+    */
     ;
 }

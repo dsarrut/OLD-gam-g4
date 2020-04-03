@@ -15,6 +15,9 @@ message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
 find_package(Geant4 REQUIRED)
 INCLUDE(${Geant4_USE_FILE})
 
+ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
+target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
+
 # Need to pybind11
 find_package(pybind11 REQUIRED)
 
@@ -35,6 +38,7 @@ pybind11_add_module(geant4
   pyG4VUserDetectorConstruction.cpp
   pyPhysicsLists.cpp
   pyG4VUserPhysicsList.cpp
+  pyG4VModularPhysicsList.cpp
   pyG4VUserPrimaryGeneratorAction.cpp
   pyG4VUserActionInitialization.cpp
   pyG4VSteppingVerbose.cpp
@@ -44,8 +48,12 @@ pybind11_add_module(geant4
   pyG4Event.cpp
   pyG4ParticleTable.cpp
   pyG4ParticleDefinition.cpp
+  pyG4UImanager.cpp
+  pyRandomize.cpp
   )
 
 target_link_libraries(geant4 PRIVATE pybind11::module ${Geant4_LIBRARIES})
 # NO ${PYTHON_LIBRARIES}) here (seg fault)
+
+
 

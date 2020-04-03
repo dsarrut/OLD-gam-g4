@@ -15,32 +15,31 @@ public:
 
   /* Trampoline (need one for each virtual function) */
   void ConstructParticle() override {
-    PYBIND11_OVERLOAD_PURE(
-                           void, /* Return type */
-                           G4VUserPhysicsList, /* Parent class */
-                           ConstructParticle, /* Name of function in C++ (must match Python name) */
-                           /* No argument here  */
+    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::ConstructParticle "<< std::endl;
+    PYBIND11_OVERLOAD_PURE(void, 
+                           G4VUserPhysicsList, 
+                           ConstructParticle,
                            );
   }
 
   void ConstructProcess() override {
-    PYBIND11_OVERLOAD_PURE(
-                           void, /* Return type */
-                           G4VUserPhysicsList, /* Parent class */
-                           ConstructProcess, /* Name of function in C++ (must match Python name) */
-                           /* No argument here  */
+    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::ConstructProcess "<< std::endl;
+    PYBIND11_OVERLOAD_PURE(void,
+                           G4VUserPhysicsList,
+                           ConstructProcess,
                            );
   }
 
+  
   void SetCuts() override {
-    PYBIND11_OVERLOAD_PURE(
-                           void, /* Return type */
-                           G4VUserPhysicsList, /* Parent class */
-                           SetCuts, /* Name of function in C++ (must match Python name) */
-                           /* No argument here  */
-                           );
+    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::SetCuts "<< std::endl;
+    PYBIND11_OVERLOAD(void, // Return type 
+                      G4VUserPhysicsList, // Parent class 
+                      SetCuts, // Name of function in C++ (must match Python name) 
+                      // No argument here  
+                      );
   }
-
+  
   
 };
 
@@ -49,12 +48,22 @@ void init_G4VUserPhysicsList(py::module & m) {
 
   py::class_<G4VUserPhysicsList, PyG4VUserPhysicsList>(m, "G4VUserPhysicsList")
 
-    .def(py::init())
+    .def(py::init<>())
 
     // pure virtual 
     .def("ConstructParticle", &G4VUserPhysicsList::ConstructParticle)
     .def("ConstructProcess", &G4VUserPhysicsList::ConstructParticle)
+
+    // virtual 
     .def("SetCuts", &G4VUserPhysicsList::SetCuts)
+
+    /*
+    .def("SetCuts", //&G4VUserPhysicsList::SetCuts)
+         [](G4VUserPhysicsList & p) -> void {
+           std::cout << "$$$$$$$ I am in G4VUserPhysicsList::SetCuts" << std::endl;
+           p.SetCuts();
+         })
+    */
 
     .def("SetDefaultCutValue", &G4VUserPhysicsList::SetDefaultCutValue)
     .def("GetDefaultCutValue", &G4VUserPhysicsList::GetDefaultCutValue)
@@ -74,6 +83,7 @@ void init_G4VUserPhysicsList(py::module & m) {
 
     .def("DumpCutValuesTable", &G4VUserPhysicsList::DumpCutValuesTable)
     .def("DumpCutValuesTableIfRequested", &G4VUserPhysicsList::DumpCutValuesTableIfRequested)
+
     // .def("SetCutValue",           f1_SetCutValue)
     // .def("SetCutValue",           f2_SetCutValue)
     // .def("SetParticleCuts",       f1_SetParticleCuts, f_SetParticleCuts())

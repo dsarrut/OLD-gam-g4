@@ -50,4 +50,9 @@ Some hints boost-python vs pybind11
   https://pybind11.readthedocs.io/en/stable/advanced/classes.html
 
 
+- singleton
+  // No destructor for this singleton class
+  py::class_<G4RunManager, std::unique_ptr<G4RunManager, py::nodelete>>(m, "G4RunManager")
+
+
 

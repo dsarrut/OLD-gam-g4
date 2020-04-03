@@ -1,3 +1,9 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -8,7 +14,7 @@ namespace py = pybind11;
 
 void init_G4ThreeVector(py::module & m) {
   py::class_<G4ThreeVector>(m, "G4ThreeVector")
-
+    
     // constructor
     .def(py::init())
     .def(py::init<double>())
@@ -21,7 +27,7 @@ void init_G4ThreeVector(py::module & m) {
     .def_property("y", &G4ThreeVector::y, &G4ThreeVector::setY)
     .def_property("z", &G4ThreeVector::z, &G4ThreeVector::setZ)
 
-    // stream output /// NOT SURE this is the right way to do
+    // stream output /// FIXME Not sure this is the right way to do
     .def("__repr__", [](const G4ThreeVector &a) {
                        std::ostringstream os;
                        os << a;
@@ -41,7 +47,7 @@ void init_G4ThreeVector(py::module & m) {
                           s[i] = v;
                         })
 
-    // operator parenthesis ???
+    // operator parenthesis ??? FIXME 
     
     // operators
     .def(py::self == py::self)
@@ -102,9 +108,7 @@ void init_G4ThreeVector(py::module & m) {
     // static tolerance
     .def("getTolerance", &G4ThreeVector::getTolerance)
     
-    // with default param
-    .def("isNear", &G4ThreeVector::isNear, py::arg("v"), py::arg("epsilon")=G4ThreeVector::getTolerance())
-    
+    // FIXME 
     // .def("isParallel", &G4ThreeVector::isParallel, f_isParallel())
     // .def("isOrthogonal", &G4ThreeVector::isOrthogonal, f_isOrthogonal())
     
@@ -115,7 +119,9 @@ void init_G4ThreeVector(py::module & m) {
     .def("deltaPhi", &G4ThreeVector::deltaPhi)
     .def("coLinearRapidity", &G4ThreeVector::coLinearRapidity)
 
-
+    // FIXME 
+    // with default param
+    .def("isNear", &G4ThreeVector::isNear, py::arg("v"), py::arg("epsilon")=G4ThreeVector::getTolerance())
     // .def("isNear", [](const G4ThreeVector& v, const G4ThreeVector& w, double epsilon) {
     //                  return v.isNear(w,epsilon); })
     // .def("isNear", [](const G4ThreeVector& v, const G4ThreeVector& w) {
@@ -161,7 +167,6 @@ void init_G4ThreeVector(py::module & m) {
     //      return_value_policy<reference_existing_object>())
     // .def("rotate", f5_rotate,
     //      return_value_policy<reference_existing_object>())
-
     
     ;
 }

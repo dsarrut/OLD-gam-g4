@@ -1,3 +1,9 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -8,9 +14,10 @@ namespace py = pybind11;
 
 void init_G4RotationMatrix(py::module & m) {
   py::class_<G4RotationMatrix>(m, "G4RotationMatrix")
+
     // constructors
     .def(py::init<const G4RotationMatrix&>())
-
+    
     // property
     .def("xx", &G4RotationMatrix::xx)
     .def("xy", &G4RotationMatrix::xy)

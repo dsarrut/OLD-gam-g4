@@ -86,8 +86,8 @@ PYBIND11_MODULE(geant4, m) {
   
   init_G4PhysicsLists(m);
 
-  init_G4ParticleGun(m);
   init_G4VPrimaryGenerator(m);
+  init_G4ParticleGun(m);
   init_G4Event(m);
   
   init_G4ParticleTable(m);

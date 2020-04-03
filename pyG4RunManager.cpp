@@ -1,6 +1,11 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 #include "G4RunManager.hh"
 #include "G4VUserDetectorConstruction.hh"
@@ -8,7 +13,6 @@
 #include "G4VUserPhysicsList.hh"
 
 namespace py = pybind11;
-
 
 void init_G4RunManager(py::module & m) {
 
@@ -47,7 +51,7 @@ void init_G4RunManager(py::module & m) {
     .def("SetVerboseLevel", &G4RunManager::SetVerboseLevel)
     .def("GetVerboseLevel", &G4RunManager::GetVerboseLevel)
 
-    .def_static("GetRunManager", &G4RunManager::GetRunManager) //, py::return_value_policy::referenced)
+    .def_static("GetRunManager", &G4RunManager::GetRunManager, py::return_value_policy::reference)
     //      "Get an instance of G4RunManager",
     //return_value_policy<reference_existing_object>())
     //  .staticmethod("GetRunManager")

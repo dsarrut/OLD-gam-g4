@@ -69,6 +69,8 @@ PYBIND11_MODULE(geant4, m) {
   init_G4NistManager(m);
   init_G4Material(m);
 
+  init_G4VSteppingVerbose(m);
+
   init_G4RunManager(m);
   init_G4VUserDetectorConstruction(m);
   init_G4VUserPhysicsList(m);
@@ -92,8 +94,6 @@ PYBIND11_MODULE(geant4, m) {
   
   init_G4ParticleTable(m);
   init_G4ParticleDefinition(m);
-
-  init_G4VSteppingVerbose(m);
 
   init_G4UImanager(m);
   

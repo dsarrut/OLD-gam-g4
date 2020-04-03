@@ -1,6 +1,11 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -10,69 +15,55 @@ namespace py = pybind11;
 // Needed helper class because of the pure virtual method
 class PyG4VUserPhysicsList : public G4VUserPhysicsList {
 public:
-  /* Inherit the constructors */
+  // Inherit the constructors
   using G4VUserPhysicsList::G4VUserPhysicsList;
 
-  /* Trampoline (need one for each virtual function) */
+  // Trampoline (need one for each virtual function)
   void ConstructParticle() override {
-    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::ConstructParticle "<< std::endl;
-    PYBIND11_OVERLOAD_PURE(void, 
-                           G4VUserPhysicsList, 
+    PYBIND11_OVERLOAD_PURE(void,
+                           G4VUserPhysicsList,
                            ConstructParticle,
                            );
   }
 
+  // Trampoline (need one for each virtual function)
   void ConstructProcess() override {
-    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::ConstructProcess "<< std::endl;
     PYBIND11_OVERLOAD_PURE(void,
                            G4VUserPhysicsList,
                            ConstructProcess,
                            );
   }
 
-  
+  // Trampoline (need one for each virtual function)
   void SetCuts() override {
-    std::cout << "--------------> TREMPOLINE PyG4VUserPhysicsList::SetCuts "<< std::endl;
-    PYBIND11_OVERLOAD(void, // Return type 
-                      G4VUserPhysicsList, // Parent class 
-                      SetCuts, // Name of function in C++ (must match Python name) 
-                      // No argument here  
+    PYBIND11_OVERLOAD(void,
+                      G4VUserPhysicsList,
+                      SetCuts,
                       );
   }
-  
-  
+
 };
 
-
+// main wrapper
 void init_G4VUserPhysicsList(py::module & m) {
 
   py::class_<G4VUserPhysicsList, PyG4VUserPhysicsList>(m, "G4VUserPhysicsList")
 
     .def(py::init<>())
 
-    // pure virtual 
+    // virtual
     .def("ConstructParticle", &G4VUserPhysicsList::ConstructParticle)
     .def("ConstructProcess", &G4VUserPhysicsList::ConstructParticle)
-
-    // virtual 
     .def("SetCuts", &G4VUserPhysicsList::SetCuts)
-
-    /*
-    .def("SetCuts", //&G4VUserPhysicsList::SetCuts)
-         [](G4VUserPhysicsList & p) -> void {
-           std::cout << "$$$$$$$ I am in G4VUserPhysicsList::SetCuts" << std::endl;
-           p.SetCuts();
-         })
-    */
 
     .def("SetDefaultCutValue", &G4VUserPhysicsList::SetDefaultCutValue)
     .def("GetDefaultCutValue", &G4VUserPhysicsList::GetDefaultCutValue)
 
     // .def("StorePhysicsTable",     &G4VUserPhysicsList::StorePhysicsTable,
-    //      f_StorePhysicsTable()) 
+    //      f_StorePhysicsTable())
     .def("IsPhysicsTableRetrieved", &G4VUserPhysicsList::IsPhysicsTableRetrieved)
     .def("IsStoredInAscii", &G4VUserPhysicsList::IsStoredInAscii)
-    .def("GetPhysicsTableDirectory", 
+    .def("GetPhysicsTableDirectory",
          &G4VUserPhysicsList::GetPhysicsTableDirectory,
          py::return_value_policy::copy)
     //return_value_policy<return_by_value>())

@@ -1,6 +1,11 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -9,11 +14,45 @@ namespace py = pybind11;
 #include "G4SteppingVerbose.hh"
 #include "G4Event.hh"
 
+// https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+// Needed helper class because of the pure virtual method
+class PyG4VUserActionInitialization : public G4VUserActionInitialization {
+public:
+  // Inherit the constructors
+  using G4VUserActionInitialization::G4VUserActionInitialization;
+
+  // Trampoline (need one for each virtual function)
+  void Build() const override {
+    PYBIND11_OVERLOAD_PURE(void,
+                           G4VUserActionInitialization,
+                           Build,
+                           );
+  }
+
+  // Trampoline (need one for each virtual function)
+  void BuildForMaster() const override {
+    PYBIND11_OVERLOAD(void,
+                      G4VUserActionInitialization,
+                      BuildForMaster,
+                      );
+  }
+
+  // Trampoline (need one for each virtual function)
+  // FIXME 
+  /*
+  void G4VSteppingVerbose* InitializeSteppingVerbose() const override {
+    PYBIND11_OVERLOAD(G4VSteppingVerbose*, 
+                      G4VUserActionInitialization,
+                      InitializeSteppingVerbose,
+                      );
+  }
+  */
+
+};
 
 void init_G4VUserActionInitialization(py::module & m) {
 
-  py::class_<G4VUserActionInitialization>(m, "G4VUserActionInitialization")
-
+  py::class_<G4VUserActionInitialization, PyG4VUserActionInitialization>(m, "G4VUserActionInitialization")
 
     // pure virtual 
     // Virtual method to be implemented by the user to instantiate user action
@@ -36,8 +75,8 @@ void init_G4VUserActionInitialization(py::module & m) {
     // G4VSteppingVerbose* FIXME 
 
     /*
-    .def("SetUserAction",
-         py::overload_cast<G4VUserPrimaryGeneratorAction*>(&G4VUserActionInitialization::SetUserAction, py::const_))
+      .def("SetUserAction",
+      py::overload_cast<G4VUserPrimaryGeneratorAction*>(&G4VUserActionInitialization::SetUserAction, py::const_))
     */
     
     /*

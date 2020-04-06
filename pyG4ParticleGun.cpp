@@ -1,10 +1,14 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
-//#include "ParticleGunAction.hh"
 #include "G4ParticleGun.hh"
 #include "G4RunManager.hh"
 #include "G4VPrimaryGenerator.hh"
@@ -26,13 +30,29 @@ namespace py = pybind11;
 
 // using namespace pyParticleGun;
 
+// https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+// Needed helper class because of the pure virtual method
+class PyG4ParticleGun : public G4ParticleGun {
+public:
+  // Inherit the constructors
+  using G4ParticleGun::G4ParticleGun;
+
+  // Trampoline (need one for each virtual function)
+  void GeneratePrimaryVertex(G4Event* evt) override {
+    std::cout << "@@@@PyG4ParticleGun GeneratePrimaryVertex " << std::endl;
+    PYBIND11_OVERLOAD(void,
+                      G4ParticleGun,
+                      GeneratePrimaryVertex,
+                      evt);
+  }
+
+};
 void init_G4ParticleGun(py::module & m) {
   
-  py::class_<G4ParticleGun, G4VPrimaryGenerator>(m, "G4ParticleGun")
+  py::class_<G4ParticleGun, PyG4ParticleGun, G4VPrimaryGenerator>(m, "G4ParticleGun")
 
     .def(py::init())
     .def(py::init<int>())
-
 
     .def("GeneratePrimaryVertex", &G4ParticleGun::GeneratePrimaryVertex)
     .def("SetParticleDefinition", &G4ParticleGun::SetParticleDefinition)
@@ -41,7 +61,7 @@ void init_G4ParticleGun(py::module & m) {
 
     .def("SetParticleEnergy", &G4ParticleGun::SetParticleEnergy)
 
-    .def("SetParticlePosition",   &G4ParticleGun::SetParticlePosition)
+    .def("SetParticlePosition", &G4ParticleGun::SetParticlePosition)
 
     /*
 

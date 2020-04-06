@@ -1,6 +1,11 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -32,10 +37,22 @@ namespace py = pybind11;
 #include "G4VUserPhysicsList.hh"
 #include "G4VModularPhysicsList.hh"
 
-// macro for adding physics lists
-#define ADD_PHYSICS_LIST(m, plname)                     \
+// macro for adding physics lists: no parameter
+#define ADD_PHYSICS_LIST0(m, plname)                    \
   py::class_<plname, G4VModularPhysicsList>(m, #plname) \
-  .def(py::init());                                     \
+  .def(py::init<>());                                   \
+  AddPhysicsList(#plname);
+
+// macro for adding physics lists: one int parameter
+#define ADD_PHYSICS_LIST1(m, plname)                    \
+  py::class_<plname, G4VModularPhysicsList>(m, #plname) \
+  .def(py::init<G4int>());                              \
+  AddPhysicsList(#plname);
+
+// macro for adding physics lists: int+str parameter
+#define ADD_PHYSICS_LIST2(m, plname)                    \
+  py::class_<plname, G4VModularPhysicsList>(m, #plname) \
+  .def(py::init<G4int,G4String>());                     \
   AddPhysicsList(#plname);
 
 namespace pyPhysicsLists {
@@ -57,91 +74,32 @@ namespace pyPhysicsLists {
 
 using namespace pyPhysicsLists;
 
-
-
-class PyQBBC : public QBBC {
-public:
-  /* Inherit the constructors */
-  using QBBC::QBBC;
-
-  /* Trampoline (need one for each virtual function) */
-  void SetCuts() override {
-    std::cout << "--------------> TREMPOLINE PyQBBC::SetCuts "<< std::endl;
-    PYBIND11_OVERLOAD(void,
-                      QBBC, 
-                      SetCuts, 
-                      );
-  }
-  
-
-  void ConstructParticle() override {
-    std::cout << "--------------> TREMPOLINE PyQBBC::ConstructParticle "<< std::endl;
-    PYBIND11_OVERLOAD(void, 
-                      QBBC,
-                      ConstructParticle,
-                      );
-  }
-
-  void ConstructProcess() override {
-    std::cout << "--------------> TREMPOLINE PyQBBC::ConstructProcess "<< std::endl;
-    PYBIND11_OVERLOAD(void,
-                      QBBC, 
-                      ConstructProcess, 
-                      );
-  }
-
-};
-
-
-
-
-
 void init_G4PhysicsLists(py::module & m) {
 
   m.def("ListPhysicsList", ListPhysicsList);
 
-  ADD_PHYSICS_LIST(m, FTFP_BERT);
-  /*  ADD_PHYSICS_LIST(m, FTFP_BERT_ATL);
-      ADD_PHYSICS_LIST(m, FTFP_BERT_HP);
-      ADD_PHYSICS_LIST(m, FTFP_BERT_TRV);
-      ADD_PHYSICS_LIST(m, FTFP_INCLXX);
-      ADD_PHYSICS_LIST(m, FTFP_INCLXX_HP);
-      ADD_PHYSICS_LIST(m, FTF_BIC);
-      ADD_PHYSICS_LIST(m, LBE);
-      ADD_PHYSICS_LIST(m, NuBeam);
-  */
+  ADD_PHYSICS_LIST1(m, FTFP_BERT);
+  ADD_PHYSICS_LIST1(m, FTFP_BERT_ATL);
+  ADD_PHYSICS_LIST1(m, FTFP_BERT_HP);
+  ADD_PHYSICS_LIST1(m, FTFP_BERT_TRV);
+  ADD_PHYSICS_LIST1(m, FTFP_INCLXX);
+  ADD_PHYSICS_LIST1(m, FTFP_INCLXX_HP);
+  ADD_PHYSICS_LIST1(m, FTF_BIC);
+  ADD_PHYSICS_LIST1(m, LBE);
+  ADD_PHYSICS_LIST1(m, NuBeam);
 
-  // ADD_PHYSICS_LIST(m, QBBC);
-
-  py::class_<QBBC, PyQBBC, G4VModularPhysicsList>(m, "QBBC")
-    .def(py::init<G4int,G4String>())
-
-    .def("ConstructParticle", &QBBC::ConstructParticle)
-    .def("ConstructProcess", &QBBC::ConstructProcess)
-
-    // FIXME cannot compile ???
-    //.def("SetCuts", &QBBC::SetCuts)
-
-    /*
-      .def("SetCuts", [](QBBC * s) {
-      std::cout << "QBBC @@@@@@ SetCuts" << std::endl;
-      s->G4VUserPhysicsList::SetCuts();
-      })
-    */
-
-    ;
-
-  /*ADD_PHYSICS_LIST(m, QGSP_BERT);
-    ADD_PHYSICS_LIST(m, QGSP_BERT_HP);
-    ADD_PHYSICS_LIST(m, QGSP_BIC);
-    ADD_PHYSICS_LIST(m, QGSP_BIC_AllHP);
-    ADD_PHYSICS_LIST(m, QGSP_BIC_HP);
-    ADD_PHYSICS_LIST(m, QGSP_FTFP_BERT);
-    ADD_PHYSICS_LIST(m, QGSP_INCLXX);
-    ADD_PHYSICS_LIST(m, QGSP_INCLXX_HP);
-    ADD_PHYSICS_LIST(m, QGS_BIC);
-    ADD_PHYSICS_LIST(m, Shielding);
-  */
+  ADD_PHYSICS_LIST2(m, QBBC);
+  
+  ADD_PHYSICS_LIST1(m, QGSP_BERT);
+  ADD_PHYSICS_LIST1(m, QGSP_BERT_HP);
+  ADD_PHYSICS_LIST1(m, QGSP_BIC);
+  ADD_PHYSICS_LIST1(m, QGSP_BIC_AllHP);
+  ADD_PHYSICS_LIST1(m, QGSP_BIC_HP);
+  ADD_PHYSICS_LIST1(m, QGSP_FTFP_BERT);
+  ADD_PHYSICS_LIST1(m, QGSP_INCLXX);
+  ADD_PHYSICS_LIST1(m, QGSP_INCLXX_HP);
+  ADD_PHYSICS_LIST1(m, QGS_BIC);
+  ADD_PHYSICS_LIST2(m, Shielding);
 
   // sort PL vector
   std::sort(plList.begin(), plList.end());

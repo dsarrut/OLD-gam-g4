@@ -1,23 +1,39 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
 #include "G4VPrimaryGenerator.hh"
 #include "G4Event.hh"
 
-void init_G4VPrimaryGenerator(py::module & m) {
-  py::class_<G4VPrimaryGenerator>(m, "G4VPrimaryGenerator")
-    
-    //.def(py::init())
+// https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+// Needed helper class because of the pure virtual method
+class PyG4VPrimaryGenerator : public G4VPrimaryGenerator {
+public:
+  // Inherit the constructors
+  using G4VPrimaryGenerator::G4VPrimaryGenerator;
 
-    .def("GeneratePrimaryVertex",
-         /*  [](G4VPrimaryGenerator * p, G4Event* evt) {
-           std::cout << "G4VPrimaryGenerator pure virtual" << std::endl;
-           return p->GeneratePrimaryVertex(evt);
-           })*/
-         &G4VPrimaryGenerator::GeneratePrimaryVertex)
+  // Trampoline (need one for each virtual function)
+  void GeneratePrimaryVertex(G4Event* evt) override {
+    std::cout << "@@@@PyG4VPrimaryGenerator GeneratePrimaryVertex " << std::endl;
+    PYBIND11_OVERLOAD_PURE(void,
+                           G4VPrimaryGenerator,
+                           GeneratePrimaryVertex,
+                           evt);
+  }
+
+};
+
+void init_G4VPrimaryGenerator(py::module & m) {
+  py::class_<G4VPrimaryGenerator, PyG4VPrimaryGenerator>(m, "G4VPrimaryGenerator")
+    
+    .def("GeneratePrimaryVertex", &G4VPrimaryGenerator::GeneratePrimaryVertex)
 
     /*
       class G4VPrimaryGenerator

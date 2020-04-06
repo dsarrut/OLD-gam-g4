@@ -1,6 +1,11 @@
+// --------------------------------------------------
+//   Copyright (C): OpenGATE Collaboration
+//   This software is distributed under the terms
+//   of the GNU Lesser General  Public Licence (LGPL)
+//   See LICENSE.md for further details
+// --------------------------------------------------
 
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -8,7 +13,6 @@ namespace py = pybind11;
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4String.hh"
-
 
 #include "G4LeptonConstructor.hh"
 #include "G4BosonConstructor.hh"
@@ -75,20 +79,16 @@ void init_G4ParticleTable(py::module & m) {
     using namespace pyG4ParticleTable;
   */
 
-  
+
   //  py::class_<G4ParticleTable, std::unique_ptr<G4ParticleTable, py::nodelete>>(m, "G4ParticleTable")
   py::class_<G4ParticleTable>(m, "G4ParticleTable")
 
-    .def("GetParticleTable",
-         &G4ParticleTable::GetParticleTable,
-         py::return_value_policy::reference)
-    //         return_value_policy<reference_existing_object>())
-
+    .def("GetParticleTable", &G4ParticleTable::GetParticleTable, py::return_value_policy::reference)
 
     .def("CreateAllParticles",
          [](const G4ParticleTable &) {
            // Create all particles
-           std::cout << "Create All Particles" << std::endl;
+           // std::cout << "Create All Particles" << std::endl;
            G4LeptonConstructor::ConstructParticle();
            G4BosonConstructor::ConstructParticle();
            G4MesonConstructor::ConstructParticle();
@@ -97,23 +97,17 @@ void init_G4ParticleTable(py::module & m) {
            G4IonConstructor::ConstructParticle();
          })
 
-
-         
-    
     //.staticmethod("GetParticleTable")
     //.def("GetParticleTable", &G4ParticleTable::GetParticleTable)
 
     //.def("contains",          f1_contains)
     //.def("contains",          f2_contains)
 
-    .def("entries",           &G4ParticleTable::entries)
-    .def("size",              &G4ParticleTable::size)
+    .def("entries", &G4ParticleTable::entries)
+    .def("size", &G4ParticleTable::size)
 
-    .def("GetParticle",       &G4ParticleTable::GetParticle, py::return_value_policy::reference)
-    //         return_value_policy<reference_existing_object>())
-    
-    .def("GetParticleName",   &G4ParticleTable::GetParticleName, py::return_value_policy::copy)
-    //	 return_value_policy<return_by_value>())
+    .def("GetParticle", &G4ParticleTable::GetParticle, py::return_value_policy::reference)
+    .def("GetParticleName", &G4ParticleTable::GetParticleName, py::return_value_policy::copy)
 
     .def("FindParticle",
          //py::overload_cast<G4String>(&G4ParticleTable::FindParticle))//,
@@ -121,7 +115,7 @@ void init_G4ParticleTable(py::module & m) {
          &G4ParticleTable::FindParticle,
          py::return_value_policy::reference_internal,
          py::arg("particle_name"))
-    
+
     /*
       .def("FindParticle",      f1_FindParticle,
       return_value_policy<reference_existing_object>())
@@ -136,22 +130,21 @@ void init_G4ParticleTable(py::module & m) {
       .def("FindAntiParticle",  f3_FindAntiParticle,
       return_value_policy<reference_existing_object>())
     */
-    
-    .def("DumpTable",         &G4ParticleTable::DumpTable) //, f_DumpTable())
+
+    .def("DumpTable", &G4ParticleTable::DumpTable) //, f_DumpTable())
 
     //.def("GetIonTable",     &G4ParticleTable::GetIonTable,
     //...)
     //.def("GetShortLivedTable", &G4ParticleTable::GetShortLivedTable,
     //...)
-    
-    .def("SetVerboseLevel",   &G4ParticleTable::SetVerboseLevel)
-    .def("GetVerboseLevel",   &G4ParticleTable::GetVerboseLevel)
-    .def("SetReadiness",      &G4ParticleTable::SetReadiness)
-    .def("GetReadiness",      &G4ParticleTable::GetReadiness)
+
+    .def("SetVerboseLevel", &G4ParticleTable::SetVerboseLevel)
+    .def("GetVerboseLevel", &G4ParticleTable::GetVerboseLevel)
+    .def("SetReadiness", &G4ParticleTable::SetReadiness)
+    .def("GetReadiness", &G4ParticleTable::GetReadiness)
 
     // additionals
     //.def("GetParticleList",   GetParticleList)
     ;
 
-  
 }

@@ -21,7 +21,7 @@ public:
 
   // Trampoline (need one for each virtual function)
   G4VPhysicalVolume * Construct() override {
-    std::cout << "I am in PyG4VUserDetectorConstruction::Construct" << std::endl;
+    // std::cout << "I am in PyG4VUserDetectorConstruction::Construct" << std::endl;
     PYBIND11_OVERLOAD_PURE(G4VPhysicalVolume*,
                            G4VUserDetectorConstruction,
                            Construct,

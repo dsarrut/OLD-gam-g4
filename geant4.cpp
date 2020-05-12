@@ -33,6 +33,7 @@ void init_G4VUserActionInitialization(py::module &);
 void init_G4VSolid(py::module &);
 void init_G4VPhysicalVolume(py::module &);
 void init_G4LogicalVolume(py::module &);
+void init_G4GeometryManager(py::module &);
 
 // geometry/solids
 void init_G4Box(py::module &);
@@ -81,6 +82,7 @@ PYBIND11_MODULE(geant4, m) {
   init_G4VSolid(m);
   init_G4VPhysicalVolume(m);
   init_G4LogicalVolume(m);
+  init_G4GeometryManager(m);
 
   init_G4Box(m);
 

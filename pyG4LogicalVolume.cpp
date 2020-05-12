@@ -87,10 +87,12 @@ void init_G4LogicalVolume(py::module & m) {
     .def("GetBiasWeight", &G4LogicalVolume::GetBiasWeight)
 
     // debug destructor
+    /*
     .def("__del__",
          [](const G4LogicalVolume & s) -> void {
            std::cerr << "---------------> deleting G4LogicalVolume " << s.GetName() << std::endl;
          })
-
+    */
+    
     ;
 }

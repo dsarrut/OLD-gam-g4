@@ -15,8 +15,8 @@ find_package(Geant4 REQUIRED)
 INCLUDE(${Geant4_USE_FILE})
 
 # a simple G4 test (LATER -> to be compared to equivalent in python)
-ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
-target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
+# ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
+# target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
 
 # Need to pybind11
 find_package(pybind11 REQUIRED)
@@ -38,6 +38,7 @@ pybind11_add_module(geant4
   pyG4PVPlacement.cpp
   pyG4LogicalVolume.cpp
   pyG4VUserDetectorConstruction.cpp
+  pyG4GeometryManager.cpp
 
   pyPhysicsLists.cpp
   pyG4VUserPhysicsList.cpp

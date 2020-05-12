@@ -97,10 +97,12 @@ void init_G4VPhysicalVolume(py::module & m) {
     .def("GetParameterisation", &G4VPhysicalVolume::GetParameterisation, py::return_value_policy::reference)
 
     // debug destructor
+    /*
     .def("__del__",
          [](const G4VPhysicalVolume & s) -> void {
            std::cerr << "---------------> deleting G4VPhysicalVolume " << s.GetName() << std::endl;
          })
-
+    */
+    
     ;
 }

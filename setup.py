@@ -39,18 +39,25 @@ class CMakeBuild(build_ext):
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DPYTHON_EXECUTABLE=' + sys.executable,
-                      #'-DCMAKE_PREFIX_PATH=' + '/Users/dsarrut/src/gate2/pybind11_install'
-                      '-DCMAKE_PREFIX_PATH=' + 'D:\David\src\pybind11_install'
+                      # '-DCMAKE_PREFIX_PATH=' + '/Users/dsarrut/src/gate2/pybind11_install'
+                      # '-DCMAKE_PREFIX_PATH=' + 'D:\David\src\pybind11_install'
                       ]
 
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
 
+        # Pile all .so in one place and use $ORIGIN as RPATH
+        cmake_args += ["-DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE"]
+        cmake_args += ["-DCMAKE_INSTALL_RPATH={}".format("$ORIGIN")]
+
         if platform.system() == "Windows":
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
+            # cmake_args += ['-G "CodeBlocks - NMake Makefiles"']
             if sys.maxsize > 2 ** 32:
                 cmake_args += ['-A', 'x64']
             build_args += ['--', '/m']
+            print('build_arg', build_args)
+            print('cmake_arg', cmake_args)
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
             build_args += ['--', '-j2']
@@ -61,7 +68,12 @@ class CMakeBuild(build_ext):
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
-        subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
+        # subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
+        subprocess.check_call(['cmake',
+                               '--build', '.',
+                               '--target', ext.name
+                               ] + build_args,
+                              cwd=self.build_temp)
 
 
 setup(

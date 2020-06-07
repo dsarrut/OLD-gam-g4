@@ -10,8 +10,7 @@ Some hints boost-python vs pybind11
   is noncopyable unless specified) - if something is to be made
   copyable, a copy constructor should be provided to python
   
-  
-  
+    
 - return policies
   https://pybind11.readthedocs.io/en/stable/advanced/functions.html
  
@@ -47,8 +46,8 @@ Some hints boost-python vs pybind11
 
 
 - pure virtual need a trampoline class
-  https://pybind11.readthedocs.io/en/stable/advanced/classes.html
-
+    https://pybind11.readthedocs.io/en/stable/advanced/classes.html
+    See for example: pyG4UserSteppingAction.cpp
 
 - singleton
   // No destructor for this singleton class

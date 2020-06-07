@@ -12,9 +12,24 @@ namespace py = pybind11;
 #include "G4UserRunAction.hh"
 #include "G4Run.hh"
 
+class PyG4UserRunAction : public G4UserRunAction {
+public:
+    /* Inherit the constructors */
+    using G4UserRunAction::G4UserRunAction;
+
+    void BeginOfRunAction(const G4Run* aRun) {
+        PYBIND11_OVERLOAD(void,
+                          G4UserRunAction,
+                          BeginOfRunAction,
+                          aRun
+        );
+    }
+};
+
 void init_G4UserRunAction(py::module &m) {
 
-    py::class_<G4UserRunAction>(m, "G4UserRunAction")
+    py::class_<G4UserRunAction, PyG4UserRunAction>(m, "G4UserRunAction")
+      .def(py::init())
       .def("BeginOfRunAction", &G4UserRunAction::BeginOfRunAction)
       .def("EndOfRunAction", &G4UserRunAction::EndOfRunAction);
 }

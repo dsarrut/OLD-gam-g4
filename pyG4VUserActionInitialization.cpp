@@ -13,6 +13,9 @@ namespace py = pybind11;
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4SteppingVerbose.hh"
 #include "G4Event.hh"
+#include "G4UserRunAction.hh"
+#include "G4UserEventAction.hh"
+#include "G4UserSteppingAction.hh"
 
 // https://pybind11.readthedocs.io/en/stable/advanced/classes.html
 // Needed helper class because of the pure virtual method
@@ -20,6 +23,7 @@ class PyG4VUserActionInitialization : public G4VUserActionInitialization {
 public:
     // Inherit the constructors
     using G4VUserActionInitialization::G4VUserActionInitialization;
+    //using G4VUserActionInitialization::SetUserAction;
 
     // Trampoline (need one for each virtual function)
     void Build() const override {
@@ -48,14 +52,37 @@ public:
     }
     */
 
+    // Trampoline needed for protected  + overloaded function
+    void SetUserAction(G4UserRunAction* e) {
+        std::cout << "PyG4VUserActionInitialization::SetUserActionRun" << std::endl;
+        std::cout << "run " << e->IsMaster() << std::endl;
+        G4VUserActionInitialization::SetUserAction(e);
+    }
+
+    void SetUserAction(G4VUserPrimaryGeneratorAction* e) {
+        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        G4VUserActionInitialization::SetUserAction(e);
+    }
+
+    void SetUserAction(G4UserEventAction* e) {
+        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        G4VUserActionInitialization::SetUserAction(e);
+    }
+
+    void SetUserAction(G4UserSteppingAction* e) {
+        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        G4VUserActionInitialization::SetUserAction(e);
+    }
+
 };
 
-void init_G4VUserActionInitialization(py::module &m) {
+void init_G4VUserActionInitialization(py::module & m) {
 
     py::class_<G4VUserActionInitialization, PyG4VUserActionInitialization>(m, "G4VUserActionInitialization")
+      .def(py::init_alias<>())
 
-      // pure virtual
-      // Virtual method to be implemented by the user to instantiate user action
+        // pure virtual
+        // Virtual method to be implemented by the user to instantiate user action
       .def("Build", &G4VUserActionInitialization::Build)
 
         // Virtual method to be implemented by the user to instantiate user run action
@@ -71,6 +98,37 @@ void init_G4VUserActionInitialization(py::module &m) {
         // not implemented, the default G4SteppingVerbose will be used. Please note
         // that this method affects only for the worker thread.
       .def("InitializeSteppingVerbose", &G4VUserActionInitialization::InitializeSteppingVerbose)
+
+      //.def("SetUserAction", &G4VUserActionInitialization::SetUserAction)
+
+      .def("SetUserAction",
+           (void (G4VUserActionInitialization::*)(G4UserRunAction*))
+           &PyG4VUserActionInitialization::SetUserAction)
+
+      .def("SetUserAction",
+           (void (G4VUserActionInitialization::*)(G4UserEventAction*))
+             &PyG4VUserActionInitialization::SetUserAction)
+
+      .def("SetUserAction",
+           (void (G4VUserActionInitialization::*)(G4VUserPrimaryGeneratorAction*))
+             &PyG4VUserActionInitialization::SetUserAction)
+
+      .def("SetUserAction",
+           (void (G4VUserActionInitialization::*)(G4UserSteppingAction*))
+             &PyG4VUserActionInitialization::SetUserAction)
+
+      // (void (Pet::*)(const std::string &)) &Pet::set, "Set the pet's name");
+        //py::overload_cast<G4UserRunAction *>(&PyG4VUserActionInitialization::SetUserAction))
+        //py::overload_cast<G4UserRunAction *>(&PyG4VUserActionInitialization::SetUserAction))
+
+        // .def("foo", static_cast<int (A::*)() const>(&Publicist::foo));
+
+           /*
+      .
+        def("SetUserAction",
+            py::overload_cast<G4UserSteppingAction *>(&G4VUserActionInitialization::SetUserAction))
+*/
+        // TRAP TRACK
 
         // G4VSteppingVerbose* FIXME
 

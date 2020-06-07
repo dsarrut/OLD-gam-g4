@@ -43,7 +43,7 @@ public:
     /* Trampoline (need one for each virtual function) */
 
     void SetCuts() override {
-        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::SetCuts " << std::endl;
+        std::cout << "--------------> TRAMPOLINE PyG4VModularPhysicsList::SetCuts " << std::endl;
         PYBIND11_OVERLOAD(void,
                           G4VModularPhysicsList,
                           SetCuts,
@@ -51,7 +51,7 @@ public:
     }
 
     void ConstructParticle() override {
-        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructParticle " << std::endl;
+        std::cout << "--------------> TRAMPOLINE PyG4VModularPhysicsList::ConstructParticle " << std::endl;
         PYBIND11_OVERLOAD(void,
                           G4VModularPhysicsList,
                           ConstructParticle,
@@ -59,7 +59,7 @@ public:
     }
 
     void ConstructProcess() override {
-        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructProcess " << std::endl;
+        std::cout << "--------------> TRAMPOLINE PyG4VModularPhysicsList::ConstructProcess " << std::endl;
         PYBIND11_OVERLOAD(void,
                           G4VModularPhysicsList,
                           ConstructProcess,

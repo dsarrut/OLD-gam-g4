@@ -39,7 +39,8 @@ class CMakeBuild(build_ext):
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DPYTHON_EXECUTABLE=' + sys.executable,
-                      '-DCMAKE_PREFIX_PATH=' + '/Users/dsarrut/src/gate2/pybind11_install'
+                      #'-DCMAKE_PREFIX_PATH=' + '/Users/dsarrut/src/gate2/pybind11_install'
+                      '-DCMAKE_PREFIX_PATH=' + 'D:\David\src\pybind11_install'
                       ]
 
         cfg = 'Debug' if self.debug else 'Release'

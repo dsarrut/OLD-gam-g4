@@ -37,67 +37,67 @@ namespace py = pybind11;
 // Needed helper class because of the pure virtual method
 class PyG4VModularPhysicsList : public G4VModularPhysicsList {
 public:
-  /* Inherit the constructors */
-  using G4VModularPhysicsList::G4VModularPhysicsList;
+    /* Inherit the constructors */
+    using G4VModularPhysicsList::G4VModularPhysicsList;
 
-  /* Trampoline (need one for each virtual function) */
+    /* Trampoline (need one for each virtual function) */
 
-  void SetCuts() override {
-    std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::SetCuts "<< std::endl;
-    PYBIND11_OVERLOAD(void,
-                      G4VModularPhysicsList, 
-                      SetCuts, 
-                      );
-  }
+    void SetCuts() override {
+        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::SetCuts " << std::endl;
+        PYBIND11_OVERLOAD(void,
+                          G4VModularPhysicsList,
+                          SetCuts,
+        );
+    }
 
-  void ConstructParticle() override {
-    std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructParticle "<< std::endl;
-    PYBIND11_OVERLOAD(void, 
-                      G4VModularPhysicsList,
-                      ConstructParticle,
-                      );
-  }
+    void ConstructParticle() override {
+        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructParticle " << std::endl;
+        PYBIND11_OVERLOAD(void,
+                          G4VModularPhysicsList,
+                          ConstructParticle,
+        );
+    }
 
-  void ConstructProcess() override {
-    std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructProcess "<< std::endl;
-    PYBIND11_OVERLOAD(void,
-                      G4VModularPhysicsList, 
-                      ConstructProcess, 
-                      );
-  }
+    void ConstructProcess() override {
+        std::cout << "--------------> TREMPOLINE PyG4VModularPhysicsList::ConstructProcess " << std::endl;
+        PYBIND11_OVERLOAD(void,
+                          G4VModularPhysicsList,
+                          ConstructProcess,
+        );
+    }
 
 };
 
 // ====================================================================
 // module definition
 // ====================================================================
-void init_G4VModularPhysicsList(py::module & m)
-{
-  py::class_<G4VModularPhysicsList, G4VUserPhysicsList, PyG4VModularPhysicsList>(m, "G4VModularPhysicsList", py::multiple_inheritance())
+void init_G4VModularPhysicsList(py::module &m) {
+    py::class_<G4VModularPhysicsList, G4VUserPhysicsList, PyG4VModularPhysicsList>(m, "G4VModularPhysicsList",
+                                                                                   py::multiple_inheritance())
 
-    .def(py::init<>())
+      .def(py::init<>())
 
-    // FIXME --> cannot compile ????
-    //.def("SetCuts", &G4VModularPhysicsList::SetCuts)
-    
-    /*
-    .def("SetCuts", [](G4VModularPhysicsList * s) {
-                      std::cout << "PY @@@@@ G4VModularPhysicsList::SetCuts" << std::endl;
-                      s->G4VUserPhysicsList::SetCuts();
-                    })
-    */
+        // FIXME --> cannot compile ????
+        //.def("SetCuts", &G4VModularPhysicsList::SetCuts)
 
-    
-    // virtual (needed)
-    .def("ConstructParticle", &G4VModularPhysicsList::ConstructParticle)
-    .def("ConstructProcess", &G4VModularPhysicsList::ConstructProcess)
+        /*
+        .def("SetCuts", [](G4VModularPhysicsList * s) {
+                          std::cout << "PY @@@@@ G4VModularPhysicsList::SetCuts" << std::endl;
+                          s->G4VUserPhysicsList::SetCuts();
+                        })
+        */
 
-    
-    .def("RegisterPhysics",   &G4VModularPhysicsList::RegisterPhysics)
-    // .def("GetPhysics",       f1_GetPhysics,
-    //      return_value_policy<reference_existing_object>())
-    // .def("GetPhysics",       f2_GetPhysics,
-    //      return_value_policy<reference_existing_object>())
-    ;
+
+        // virtual (needed)
+      .def("ConstructParticle", &G4VModularPhysicsList::ConstructParticle)
+      .def("ConstructProcess", &G4VModularPhysicsList::ConstructProcess)
+
+
+      .def("RegisterPhysics", &G4VModularPhysicsList::RegisterPhysics)
+        // .def("GetPhysics",       f1_GetPhysics,
+        //      return_value_policy<reference_existing_object>())
+        // .def("GetPhysics",       f2_GetPhysics,
+        //      return_value_policy<reference_existing_object>())
+      ;
 }
 

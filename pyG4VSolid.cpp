@@ -12,19 +12,19 @@ namespace py = pybind11;
 #include "G4Version.hh"
 #include "G4VSolid.hh"
 
-void init_G4VSolid(py::module & m) {
-  py::class_<G4VSolid>(m, "G4VSolid")
-    
-    .def("GetName", &G4VSolid::GetName)
-    .def("SetName", &G4VSolid::SetName)
-    .def("DumpInfo", &G4VSolid::DumpInfo)
+void init_G4VSolid(py::module &m) {
+    py::class_<G4VSolid>(m, "G4VSolid")
 
-    .def("GetCubicVolume", &G4VSolid::GetCubicVolume)
-    .def("GetSurfaceArea", &G4VSolid::GetSurfaceArea)
-    .def("GetPointOnSurface", &G4VSolid::GetPointOnSurface)
+      .def("GetName", &G4VSolid::GetName)
+      .def("SetName", &G4VSolid::SetName)
+      .def("DumpInfo", &G4VSolid::DumpInfo)
 
-    // operators
-    //.def(self == self)
-    ;
+      .def("GetCubicVolume", &G4VSolid::GetCubicVolume)
+      .def("GetSurfaceArea", &G4VSolid::GetSurfaceArea)
+      .def("GetPointOnSurface", &G4VSolid::GetPointOnSurface)
+
+        // operators
+        //.def(self == self)
+      ;
 }
 

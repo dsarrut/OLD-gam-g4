@@ -1,0 +1,11 @@
+
+*~
+/venv
+/cmake-build-debug
+/cmake-build-release
+/geant4.egg-info
+/build
+/save
+/save_sync
+/pyPhysicsLists.save.cpp
+

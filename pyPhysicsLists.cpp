@@ -57,50 +57,50 @@ namespace py = pybind11;
 
 namespace pyPhysicsLists {
 
-  static std::vector<std::string> plList;
+    static std::vector<std::string> plList;
 
-  void AddPhysicsList(const G4String& plname) {
-    // std::cout << "[pyg4bind11] AddPhysicsList " << plname << std::endl;
-    plList.push_back(plname);
-  }
-
-  void ListPhysicsList() {
-    for (unsigned int i=0; i< plList.size(); i++) {
-      G4cout << plList[i] << G4endl;
+    void AddPhysicsList(const G4String &plname) {
+        // std::cout << "[pyg4bind11] AddPhysicsList " << plname << std::endl;
+        plList.push_back(plname);
     }
-  }
+
+    void ListPhysicsList() {
+        for (unsigned int i = 0; i < plList.size(); i++) {
+            G4cout << plList[i] << G4endl;
+        }
+    }
 
 }
 
 using namespace pyPhysicsLists;
 
-void init_G4PhysicsLists(py::module & m) {
+void init_G4PhysicsLists(py::module &m) {
 
-  m.def("ListPhysicsList", ListPhysicsList);
+    m.def("ListPhysicsList", ListPhysicsList);
 
-  ADD_PHYSICS_LIST1(m, FTFP_BERT);
-  ADD_PHYSICS_LIST1(m, FTFP_BERT_ATL);
-  ADD_PHYSICS_LIST1(m, FTFP_BERT_HP);
-  ADD_PHYSICS_LIST1(m, FTFP_BERT_TRV);
-  ADD_PHYSICS_LIST1(m, FTFP_INCLXX);
-  ADD_PHYSICS_LIST1(m, FTFP_INCLXX_HP);
-  ADD_PHYSICS_LIST1(m, FTF_BIC);
-  ADD_PHYSICS_LIST1(m, LBE);
-  ADD_PHYSICS_LIST1(m, NuBeam);
+    ADD_PHYSICS_LIST1(m, FTFP_BERT);
+    ADD_PHYSICS_LIST1(m, FTFP_BERT_ATL);
+    ADD_PHYSICS_LIST1(m, FTFP_BERT_HP);
+    ADD_PHYSICS_LIST1(m, FTFP_BERT_TRV);
+    ADD_PHYSICS_LIST1(m, FTFP_INCLXX);
+    ADD_PHYSICS_LIST1(m, FTFP_INCLXX_HP);
+    ADD_PHYSICS_LIST1(m, FTF_BIC);
+    ADD_PHYSICS_LIST1(m, LBE);
+    ADD_PHYSICS_LIST1(m, NuBeam);
 
-  ADD_PHYSICS_LIST2(m, QBBC);
-  
-  ADD_PHYSICS_LIST1(m, QGSP_BERT);
-  ADD_PHYSICS_LIST1(m, QGSP_BERT_HP);
-  ADD_PHYSICS_LIST1(m, QGSP_BIC);
-  ADD_PHYSICS_LIST1(m, QGSP_BIC_AllHP);
-  ADD_PHYSICS_LIST1(m, QGSP_BIC_HP);
-  ADD_PHYSICS_LIST1(m, QGSP_FTFP_BERT);
-  ADD_PHYSICS_LIST1(m, QGSP_INCLXX);
-  ADD_PHYSICS_LIST1(m, QGSP_INCLXX_HP);
-  ADD_PHYSICS_LIST1(m, QGS_BIC);
-  ADD_PHYSICS_LIST2(m, Shielding);
+    ADD_PHYSICS_LIST2(m, QBBC);
 
-  // sort PL vector
-  std::sort(plList.begin(), plList.end());
+    ADD_PHYSICS_LIST1(m, QGSP_BERT);
+    ADD_PHYSICS_LIST1(m, QGSP_BERT_HP);
+    ADD_PHYSICS_LIST1(m, QGSP_BIC);
+    ADD_PHYSICS_LIST1(m, QGSP_BIC_AllHP);
+    ADD_PHYSICS_LIST1(m, QGSP_BIC_HP);
+    ADD_PHYSICS_LIST1(m, QGSP_FTFP_BERT);
+    ADD_PHYSICS_LIST1(m, QGSP_INCLXX);
+    ADD_PHYSICS_LIST1(m, QGSP_INCLXX_HP);
+    ADD_PHYSICS_LIST1(m, QGS_BIC);
+    ADD_PHYSICS_LIST2(m, Shielding);
+
+    // sort PL vector
+    std::sort(plList.begin(), plList.end());
 }

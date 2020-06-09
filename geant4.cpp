@@ -16,6 +16,8 @@ void init_G4String(py::module &);
 
 void init_G4RotationMatrix(py::module &);
 
+void init_G4UnitsTable(py::module &);
+
 // CLHEP
 void init_Randomize(py::module &);
 
@@ -88,6 +90,7 @@ PYBIND11_MODULE(geant4, m) {
     init_G4ThreeVector(m);
     init_G4String(m);
     init_G4RotationMatrix(m);
+    init_G4UnitsTable(m);
 
     init_Randomize(m);
 

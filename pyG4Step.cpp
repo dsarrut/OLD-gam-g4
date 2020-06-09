@@ -13,6 +13,8 @@ namespace py = pybind11;
 
 void init_G4Step(py::module &m) {
 
-    py::class_<G4Step>(m, "G4Step");
+    py::class_<G4Step>(m, "G4Step")
+      .def(py::init())
+      .def("GetTotalEnergyDeposit", &G4Step::GetTotalEnergyDeposit);
 }
 

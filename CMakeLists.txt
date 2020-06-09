@@ -39,6 +39,7 @@ pybind11_add_module(geant4
         pyG4ThreeVector.cpp
         pyG4String.cpp
         pyG4RotationMatrix.cpp
+        pyG4UnitsTable.cpp
 
         pyG4Material.cpp
         pyG4NistManager.cpp

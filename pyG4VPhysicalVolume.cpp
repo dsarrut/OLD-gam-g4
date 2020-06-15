@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 
 #include "G4Version.hh"
@@ -98,11 +97,11 @@ void init_G4VPhysicalVolume(py::module &m) {
 
         // debug destructor
         /*
-        .def("__del__",
-             [](const G4VPhysicalVolume & s) -> void {
-               std::cerr << "---------------> deleting G4VPhysicalVolume " << s.GetName() << std::endl;
-             })
-        */
+    .def("__del__",
+         [](const G4VPhysicalVolume & s) -> void {
+           std::cerr << "---------------> deleting G4VPhysicalVolume " << s.GetName() << std::endl;
+         })
+*/
 
       ;
 }

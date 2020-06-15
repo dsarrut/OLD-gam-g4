@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 
 #include "G4RunManager.hh"
@@ -19,6 +18,7 @@ void init_G4RunManager(py::module &m) {
 
     // No destructor for this singleton class
     py::class_<G4RunManager, std::unique_ptr<G4RunManager, py::nodelete>>(m, "G4RunManager")
+      //py::class_<G4RunManager>(m, "G4RunManager")
 
       .def(py::init())
 

@@ -1,9 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 
 #include <pybind11/pybind11.h>
 
@@ -81,24 +81,24 @@ void init_G4ParticleTable(py::module &m) {
 
 
     //  py::class_<G4ParticleTable, std::unique_ptr<G4ParticleTable, py::nodelete>>(m, "G4ParticleTable")
-    py::class_<G4ParticleTable>(m, "G4ParticleTable")
+    py::class_<G4ParticleTable,
+      std::unique_ptr<G4ParticleTable, py::nodelete>>(m, "G4ParticleTable")
 
-      .def("GetParticleTable", &G4ParticleTable::GetParticleTable, py::return_value_policy::reference)
+      .def("GetParticleTable", &G4ParticleTable::GetParticleTable,
+           py::return_value_policy::reference)
 
       .def("CreateAllParticles",
            [](const G4ParticleTable &) {
                // Create all particles
-               // std::cout << "Create All Particles" << std::endl;
+               std::cout << "Create All Particles" << std::endl;
                G4LeptonConstructor::ConstructParticle();
                G4BosonConstructor::ConstructParticle();
                G4MesonConstructor::ConstructParticle();
                G4BaryonConstructor::ConstructParticle();
                G4ShortLivedConstructor::ConstructParticle();
                G4IonConstructor::ConstructParticle();
+               std::cout << "END create All Particles" << std::endl;
            })
-
-        //.staticmethod("GetParticleTable")
-        //.def("GetParticleTable", &G4ParticleTable::GetParticleTable)
 
         //.def("contains",          f1_contains)
         //.def("contains",          f2_contains)
@@ -113,8 +113,23 @@ void init_G4ParticleTable(py::module &m) {
         //py::overload_cast<G4String>(&G4ParticleTable::FindParticle))//,
            (G4ParticleDefinition *(G4ParticleTable::*)(const G4String &))
              &G4ParticleTable::FindParticle,
-           py::return_value_policy::reference_internal,
+           py::return_value_policy::reference,
            py::arg("particle_name"))
+
+      .def("FindParticle",
+        //py::overload_cast<G4String>(&G4ParticleTable::FindParticle))//,
+           (G4ParticleDefinition *(G4ParticleTable::*)(G4int))
+             &G4ParticleTable::FindParticle,
+           py::return_value_policy::reference,
+           py::arg("PDGEncoding"))
+
+      .def("FindParticle",
+        //py::overload_cast<G4String>(&G4ParticleTable::FindParticle))//,
+           (G4ParticleDefinition *(G4ParticleTable::*)(const G4ParticleDefinition *))
+             &G4ParticleTable::FindParticle,
+           py::return_value_policy::reference,
+           py::arg("particle"))
+
 
         /*
           .def("FindParticle",      f1_FindParticle,

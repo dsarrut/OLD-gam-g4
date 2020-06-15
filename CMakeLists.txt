@@ -11,11 +11,11 @@ project(geant4)
 set(CMAKE_CXX_STANDARD 14)
 
 # Need python 
-find_package(PythonLibs REQUIRED)
+find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
-# message(STATUS "PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
-# message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
-# message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
+message(STATUS "PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
+message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
+message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
 
 # Need Geant4
 find_package(Geant4 REQUIRED)
@@ -27,10 +27,6 @@ find_package(pybind11 REQUIRED)
 # a simple G4 test
 #ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
 #target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
-
-# test proton in waterbox
-ADD_EXECUTABLE(g4_test5 g4_test5.cpp)
-target_link_libraries(g4_test5 ${Geant4_LIBRARIES})
 
 # Create the geant4 python module
 pybind11_add_module(geant4
@@ -59,7 +55,9 @@ pybind11_add_module(geant4
         pyG4VUserActionInitialization.cpp
         pyG4Run.cpp
         pyG4Event.cpp
+        pyG4Track.cpp
         pyG4Step.cpp
+        pyG4StepPoint.cpp
         pyG4UserRunAction.cpp
         pyG4UserEventAction.cpp
         pyG4UserSteppingAction.cpp
@@ -68,14 +66,30 @@ pybind11_add_module(geant4
         pyG4ParticleTable.cpp
         pyG4ParticleDefinition.cpp
 
+        G4UserSteppingBatchAction.h
+        pyG4UserSteppingBatchAction.cpp
+
         pyG4VSteppingVerbose.cpp
         pyG4RunManager.cpp
         pyG4UImanager.cpp
         pyRandomize.cpp
+
+        pyG4VPrimitiveScorer.cpp
+
+        GateUserSteppingAction.cpp
+        pyGateUserSteppingAction.cpp
+        GateTestActor.cpp
+        pyGateTestActor.cpp
         )
 
 target_link_libraries(geant4 PRIVATE pybind11::module ${Geant4_LIBRARIES})
 # NO ${PYTHON_LIBRARIES}) here (seg fault)
 
+# test proton in waterbox
+ADD_EXECUTABLE(g4_test5 g4_test5.cpp GateTestActor.cpp)
+target_link_libraries(g4_test5 ${Geant4_LIBRARIES})
 
+# test simple G4
+ADD_EXECUTABLE(g4_test6 g4_test6.cpp)
+target_link_libraries(g4_test6 ${Geant4_LIBRARIES})
 

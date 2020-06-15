@@ -8,10 +8,14 @@
 
 namespace py = pybind11;
 
-#include "G4Run.hh"
+#include "G4Track.hh"
 
-void init_G4Run(py::module &m) {
+void init_G4Track(py::module &m) {
 
-    py::class_<G4Run>(m, "G4Run");
+    py::class_<G4Track>(m, "G4Track")
+      .def(py::init())
+      .def("GetTrackID", &G4Track::GetTrackID)
+      .def("GetVolume", &G4Track::GetVolume, py::return_value_policy::copy)
+      ;
 }
 

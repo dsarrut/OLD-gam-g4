@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -43,15 +42,19 @@ namespace py = pybind11;
   .def(py::init<>());                                   \
   AddPhysicsList(#plname);
 
+
+// FIXME G4VModularPhysicsList or G4VUserPhysicsList ?
+// FIXME noncopyable ?
+
 // macro for adding physics lists: one int parameter
 #define ADD_PHYSICS_LIST1(m, plname)                    \
-  py::class_<plname, G4VModularPhysicsList>(m, #plname) \
+  py::class_<plname, G4VUserPhysicsList>(m, #plname) \
   .def(py::init<G4int>());                              \
   AddPhysicsList(#plname);
 
 // macro for adding physics lists: int+str parameter
 #define ADD_PHYSICS_LIST2(m, plname)                    \
-  py::class_<plname, G4VModularPhysicsList>(m, #plname) \
+  py::class_<plname, G4VUserPhysicsList>(m, #plname) \
   .def(py::init<G4int,G4String>());                     \
   AddPhysicsList(#plname);
 
@@ -60,8 +63,8 @@ namespace pyPhysicsLists {
     static std::vector<std::string> plList;
 
     void AddPhysicsList(const G4String &plname) {
-        // std::cout << "[pyg4bind11] AddPhysicsList " << plname << std::endl;
-        plList.push_back(plname);
+        //std::cout << "[pyg4bind11] AddPhysicsList " << plname << std::endl;
+         plList.push_back(plname);
     }
 
     void ListPhysicsList() {

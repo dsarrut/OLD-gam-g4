@@ -5,13 +5,16 @@
    See LICENSE.md for further details
    -------------------------------------------------- */
 #include <pybind11/pybind11.h>
+#include "GateSimulation.h"
 
 namespace py = pybind11;
 
-#include "G4Run.hh"
+void init_GateSimulation(py::module &m) {
+    py::class_<GateSimulation>(m, "GateSimulation")
+      .def(py::init())
+      .def("InitializationStart", &GateSimulation::InitializationStart)
+      .def("InitializationEnd", &GateSimulation::InitializationEnd)
+      .def("Start", &GateSimulation::Start)
+      ;
 
-void init_G4Run(py::module &m) {
-
-    py::class_<G4Run>(m, "G4Run");
 }
-

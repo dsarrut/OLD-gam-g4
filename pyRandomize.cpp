@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -18,11 +17,21 @@ using namespace CLHEP;
 double f_G4UniformRand() { return G4UniformRand(); }
 
 void init_Randomize(py::module &m) {
-    py::class_<HepRandom>(m, "HepRandom")
+    py::class_<HepRandom>(m, "G4Random")
 
       .def(py::init<long>())
       .def(py::init<HepRandomEngine &>())
       .def(py::init<HepRandomEngine *>())
+      .def("setTheEngine", &HepRandom::setTheEngine)
+      .def("showEngineStatus", &HepRandom::showEngineStatus)
+      .def("getTheSeed", &HepRandom::getTheSeed)
+      .def("setTheSeeds", &HepRandom::setTheSeeds)
+      ;
+
+    py::class_<HepRandomEngine>(m, "HepRandomEngine");
+
+    py::class_<MTwistEngine, HepRandomEngine>(m, "MTwistEngine")
+      .def(py::init())
 
         /*
         .def("setTheSeed",       f1_setTheSeed)
@@ -41,8 +50,7 @@ void init_Randomize(py::module &m) {
         .def("getTheGenerator",     &HepRandom::getTheGenerator,
              return_value_policy<reference_existing_object>())
         .staticmethod("getTheGenerator")
-        .def("setTheEngine",        &HepRandom::setTheEngine)
-        .staticmethod("setTheEngine")
+
         .def("getTheEngine",        &HepRandom::getTheEngine,
              return_value_policy<reference_existing_object>())
         .staticmethod("getTheEngine")

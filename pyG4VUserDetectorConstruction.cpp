@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 
 #include "G4VUserDetectorConstruction.hh"
@@ -35,5 +34,12 @@ void init_G4VUserDetectorConstruction(py::module &m) {
     py::class_<G4VUserDetectorConstruction, PyG4VUserDetectorConstruction>(m, "G4VUserDetectorConstruction")
 
       .def(py::init_alias())
-      .def("Construct", &G4VUserDetectorConstruction::Construct, py::return_value_policy::reference);
+      .def("Construct", &G4VUserDetectorConstruction::Construct,
+        py::return_value_policy::reference_internal);
+
+    /*   .def("__del__",
+       [](const G4VUserDetectorConstruction &s) -> void {
+           std::cerr << "---------------> deleting G4VUserDetectorConstruction " << std::endl;
+       });
+       */
 }

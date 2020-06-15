@@ -8,10 +8,14 @@
 
 namespace py = pybind11;
 
-#include "G4Run.hh"
+#include "G4StepPoint.hh"
 
-void init_G4Run(py::module &m) {
+void init_G4StepPoint(py::module &m) {
 
-    py::class_<G4Run>(m, "G4Run");
+    py::class_<G4StepPoint>(m, "G4StepPoint")
+      .def(py::init())
+      .def("GetPosition", &G4StepPoint::GetPosition)
+      .def("GetPhysicalVolume", &G4StepPoint::GetPhysicalVolume, py::return_value_policy::copy)
+      ;
 }
 

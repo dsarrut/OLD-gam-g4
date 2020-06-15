@@ -1,9 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 
 #include <pybind11/pybind11.h>
 
@@ -18,7 +18,8 @@ namespace py = pybind11;
 void init_G4ParticleDefinition(py::module &m) {
     py::class_<G4ParticleDefinition>(m, "G4ParticleDefinition")
 
-      .def("GetParticleName", &G4ParticleDefinition::GetParticleName, py::return_value_policy::copy)
+      .def("GetParticleName", &G4ParticleDefinition::GetParticleName,
+        py::return_value_policy::reference)
 
       .def("GetPDGMass", &G4ParticleDefinition::GetPDGMass)
       .def("GetPDGWidth", &G4ParticleDefinition::GetPDGWidth)

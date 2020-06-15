@@ -1,9 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 
 #include <pybind11/pybind11.h>
 
@@ -47,9 +47,15 @@ void init_G4Event(py::module &);
 
 void init_G4UserEventAction(py::module &);
 
+void init_G4Track(py::module &);
+
 void init_G4Step(py::module &);
 
+void init_G4StepPoint(py::module &);
+
 void init_G4UserSteppingAction(py::module &);
+
+void init_G4UserSteppingBatchAction(py::module &);
 
 // geometry/management
 void init_G4VSolid(py::module &);
@@ -85,6 +91,11 @@ void init_G4VSteppingVerbose(py::module &);
 // intercoms
 void init_G4UImanager(py::module &);
 
+// Gate
+void init_G4VPrimitiveScorer(py::module &);
+void init_GateUserSteppingAction(py::module &);
+void init_GateTestActor(py::module &);
+
 PYBIND11_MODULE(geant4, m) {
 
     init_G4ThreeVector(m);
@@ -109,8 +120,12 @@ PYBIND11_MODULE(geant4, m) {
     init_G4UserRunAction(m);
     init_G4Event(m);
     init_G4UserEventAction(m);
+    init_G4StepPoint(m);
+    init_G4Track(m);
     init_G4Step(m);
     init_G4UserSteppingAction(m);
+
+    init_G4UserSteppingBatchAction(m);
 
     init_G4VSolid(m);
     init_G4VPhysicalVolume(m);
@@ -131,4 +146,7 @@ PYBIND11_MODULE(geant4, m) {
 
     init_G4UImanager(m);
 
+    init_G4VPrimitiveScorer(m);
+    init_GateUserSteppingAction(m);
+    init_GateTestActor(m);
 }

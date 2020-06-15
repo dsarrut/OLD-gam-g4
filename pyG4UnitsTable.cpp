@@ -1,10 +1,9 @@
-// --------------------------------------------------
-//   Copyright (C): OpenGATE Collaboration
-//   This software is distributed under the terms
-//   of the GNU Lesser General  Public Licence (LGPL)
-//   See LICENSE.md for further details
-// --------------------------------------------------
-
+/* --------------------------------------------------
+   Copyright (C): OpenGATE Collaboration
+   This software is distributed under the terms
+   of the GNU Lesser General  Public Licence (LGPL)
+   See LICENSE.md for further details
+   -------------------------------------------------- */
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
@@ -39,7 +38,7 @@ void init_G4UnitsTable(py::module &m) {
       .def("BuildUnitsTable", &G4UnitDefinition::BuildUnitsTable)
       .def("PrintUnitsTable", &G4UnitDefinition::PrintUnitsTable)
       .def("GetUnitsTable", &G4UnitDefinition::GetUnitsTable,
-            py::return_value_policy::reference)
+           py::return_value_policy::reference)
       .def("GetValueOf", &G4UnitDefinition::GetValueOf)
       .def("GetCategory", &G4UnitDefinition::GetCategory);
 
@@ -51,10 +50,9 @@ void init_G4UnitsTable(py::module &m) {
 
     //   py::bind_vector<std::vector<G4UnitsCategory>>(m, "G4UnitsTable");
 
-    /*
-    py::class_<G4UnitsTable>("G4UnitsTable", "Units Table")
-      .def(py::init<>())
-      */
+    py::class_<G4UnitsTable>(m, "G4UnitsTable")
+      .def(py::init<>());
+
 
     //.def(vector_indexing_suite<G4UnitsTable>());
 

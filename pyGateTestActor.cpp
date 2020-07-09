@@ -48,6 +48,7 @@ void init_GateTestActor(py::module &m) {
       //.def("UserSteppingBatchAction", &GateTestActor::UserSteppingBatchAction)
         .def("RegisterSD", &GateTestActor::RegisterSD)
         .def("PrintDebug", &GateTestActor::PrintDebug)
+        .def("BeginOfEventAction", &GateTestActor::BeginOfEventAction)
     ;
 }
 

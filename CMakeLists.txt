@@ -24,12 +24,24 @@ INCLUDE(${Geant4_USE_FILE})
 # Need pybind11
 find_package(pybind11 REQUIRED)
 
+# itk
+find_package(ITK)
+if(ITK_FOUND)
+    include("${ITK_USE_FILE}")
+else(ITK_FOUND)
+    message(FATAL_ERROR "Cannot build without ITK.  Please set ITK_DIR.")
+endif(ITK_FOUND)
+
 # a simple G4 test
 #ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
 #target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
 
 # Create the geant4 python module
 pybind11_add_module(geant4
+
+        #NO_EXTRAS
+        #THIN_LTO
+
         geant4.cpp
 
         pyG4ThreeVector.cpp
@@ -52,7 +64,9 @@ pybind11_add_module(geant4
         pyG4VUserPhysicsList.cpp
         pyG4VModularPhysicsList.cpp
         pyG4VUserPrimaryGeneratorAction.cpp
+        pyG4PhysListFactory.cpp
         pyG4VUserActionInitialization.cpp
+        pyG4ProductionCutsTable.cpp
         pyG4Run.cpp
         pyG4Event.cpp
         pyG4Track.cpp
@@ -60,6 +74,7 @@ pybind11_add_module(geant4
         pyG4StepPoint.cpp
         pyG4UserRunAction.cpp
         pyG4UserEventAction.cpp
+        pyG4UserTrackingAction.cpp
         pyG4UserSteppingAction.cpp
         pyG4ParticleGun.cpp
         pyG4VPrimaryGenerator.cpp
@@ -72,6 +87,7 @@ pybind11_add_module(geant4
         pyG4VSteppingVerbose.cpp
         pyG4RunManager.cpp
         pyG4UImanager.cpp
+        pyG4UIsession.cpp
         pyRandomize.cpp
 
         pyG4VPrimitiveScorer.cpp
@@ -80,16 +96,59 @@ pybind11_add_module(geant4
         pyGateUserSteppingAction.cpp
         GateTestActor.cpp
         pyGateTestActor.cpp
+
+        #GateEventAction.h
+        #GateAction.cpp
+        GateVActor.cpp
+        GateAActor.cpp
+        GateDoseActor.cpp
+        GateSimulationStatisticsActor.cpp
+
+        pyGateVActor.cpp
+        pyGateAActor.cpp
+        pyGateDoseActor.cpp
+        pyGateSimulationStatisticsActor.cpp
+
         )
+
+if (WIN32)
+    if (MSVC)
+        #message("I am MSCV")
+        set_target_properties(geant4 PROPERTIES COMPILE_FLAGS "/MP /bigobj ")
+
+        # set_target_properties(geant4 PROPERTIES LINK_FLAGS "/LTCG ")
+
+#        if (NOT ${U_CMAKE_BUILD_TYPE} MATCHES DEBUG)
+#            message("I am HERE")
+#            # Enforce size-based optimization and link time code generation on MSVC
+#            # (~30% smaller binaries in experiments).
+#            set_target_properties(geant4 APPEND_STRING PROPERTY COMPILE_FLAGS "/Os /GL ")
+#            set_target_properties(geant4 APPEND_STRING PROPERTY LINK_FLAGS "/LTCG ")
+#        endif()
+    endif()
+endif()
 
 target_link_libraries(geant4 PRIVATE pybind11::module ${Geant4_LIBRARIES})
 # NO ${PYTHON_LIBRARIES}) here (seg fault)
 
-# test proton in waterbox
-ADD_EXECUTABLE(g4_test5 g4_test5.cpp GateTestActor.cpp)
+# test proton in waterbox_log
+#set(CMAKE_CXX_FLAGS "-O2")
+ADD_EXECUTABLE(g4_test5 g4_test5.cpp)
+#set_target_properties(g4_test5 PROPERTIES COMPILE_FLAGS "/MP /bigobj ")
 target_link_libraries(g4_test5 ${Geant4_LIBRARIES})
 
 # test simple G4
 ADD_EXECUTABLE(g4_test6 g4_test6.cpp)
 target_link_libraries(g4_test6 ${Geant4_LIBRARIES})
 
+# test simple G4
+ADD_EXECUTABLE(g4_test7 g4_test7.cpp GateTestActor.cpp)
+target_link_libraries(g4_test7 ${Geant4_LIBRARIES})
+
+# test simple G4
+ADD_EXECUTABLE(g4_test8 g4_test8.cpp GateTestActor.cpp)
+target_link_libraries(g4_test8 ${Geant4_LIBRARIES})
+
+# test simple G4 : batch
+ADD_EXECUTABLE(g4_test9 g4_test9.cpp GateVActor.cpp GateDoseActor.cpp)
+target_link_libraries(g4_test9 ${Geant4_LIBRARIES})

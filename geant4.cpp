@@ -35,6 +35,8 @@ void init_G4VUserPhysicsList(py::module &);
 
 void init_G4VModularPhysicsList(py::module &);
 
+void init_G4ProductionCutsTable(py::module &);
+
 void init_G4VUserPrimaryGeneratorAction(py::module &);
 
 void init_G4VUserActionInitialization(py::module &);
@@ -46,6 +48,8 @@ void init_G4UserRunAction(py::module &);
 void init_G4Event(py::module &);
 
 void init_G4UserEventAction(py::module &);
+
+void init_G4UserTrackingAction(py::module &);
 
 void init_G4Track(py::module &);
 
@@ -75,6 +79,8 @@ void init_G4PVPlacement(py::module &);
 // specific to python 
 void init_G4PhysicsLists(py::module &);
 
+void init_G4PhysListFactory(py::module &);
+
 // event
 void init_G4ParticleGun(py::module &);
 
@@ -91,10 +97,17 @@ void init_G4VSteppingVerbose(py::module &);
 // intercoms
 void init_G4UImanager(py::module &);
 
+void init_G4UIsession(py::module &);
+
 // Gate
 void init_G4VPrimitiveScorer(py::module &);
 void init_GateUserSteppingAction(py::module &);
 void init_GateTestActor(py::module &);
+
+void init_GateVActor(py::module &);
+void init_GateAActor(py::module &);
+void init_GateDoseActor(py::module &);
+void init_GateSimulationStatisticsActor(py::module &);
 
 PYBIND11_MODULE(geant4, m) {
 
@@ -114,12 +127,15 @@ PYBIND11_MODULE(geant4, m) {
     init_G4VUserDetectorConstruction(m);
     init_G4VUserPhysicsList(m);
     init_G4VModularPhysicsList(m);
+    init_G4PhysListFactory(m);
+    init_G4ProductionCutsTable(m);
     init_G4VUserPrimaryGeneratorAction(m);
     init_G4VUserActionInitialization(m);
     init_G4Run(m);
     init_G4UserRunAction(m);
     init_G4Event(m);
     init_G4UserEventAction(m);
+    init_G4UserTrackingAction(m);
     init_G4StepPoint(m);
     init_G4Track(m);
     init_G4Step(m);
@@ -145,8 +161,14 @@ PYBIND11_MODULE(geant4, m) {
     init_G4ParticleDefinition(m);
 
     init_G4UImanager(m);
+    init_G4UIsession(m);
 
     init_G4VPrimitiveScorer(m);
     init_GateUserSteppingAction(m);
     init_GateTestActor(m);
-}
+
+    init_GateVActor(m);
+    init_GateAActor(m);
+    init_GateDoseActor(m);
+    init_GateSimulationStatisticsActor(m)
+;}

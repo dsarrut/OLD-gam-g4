@@ -5,19 +5,19 @@
    See LICENSE.md for further details
    -------------------------------------------------- */
 
-#ifndef GateTestActor_h
-#define GateTestActor_h
+#ifndef GateTest2Actor_h
+#define GateTest2Actor_h
 
 #include "G4VPrimitiveScorer.hh"
 #include "G4Event.hh"
 
-class GateTestActor : public G4VPrimitiveScorer {
+class GateTest2Actor : public G4VPrimitiveScorer {
 
 public:
 
-    GateTestActor();
+    GateTest2Actor();
 
-    virtual ~GateTestActor();
+    virtual ~GateTest2Actor();
 
     virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
     void RegisterSD(G4LogicalVolume * logical_volume);
@@ -29,4 +29,4 @@ public:
     G4MultiFunctionalDetector * mfd;
 };
 
-#endif // GateTestActor_h
+#endif // GateTest2Actor_h

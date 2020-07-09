@@ -18,9 +18,32 @@ void init_G4RunManager(py::module &m) {
 
     // No destructor for this singleton class
     py::class_<G4RunManager, std::unique_ptr<G4RunManager, py::nodelete>>(m, "G4RunManager")
+      //
       //py::class_<G4RunManager>(m, "G4RunManager")
 
       .def(py::init())
+
+        /*
+      .def(py::init([]() { // Note: no `self` argument
+          std::cout << "constructor G4RunManager ici " << std::endl;
+          G4RunManager * rm = new G4RunManager();
+          std::cout << "constructor G4RunManager created" << std::endl;
+          return rm;
+          //return new G4RunManager(); // return by raw pointer
+          //return std::make_unique<G4RunManager>(new G4RunManager());
+          // or: return std::make_unique<Foo>(...); // return by holder
+          // or: return Foo(...); // return by value (move constructor)
+      }))
+         */
+
+
+      .def_static("GetRunManager",
+                  &G4RunManager::GetRunManager,
+                  py::return_value_policy::reference)
+        //      "Get an instance of G4RunManager",
+        //return_value_policy<reference_existing_object>())
+        //  .staticmethod("GetRunManager")
+
 
         // test with known arg type
       .def("Initialize", &G4RunManager::Initialize)
@@ -54,11 +77,6 @@ void init_G4RunManager(py::module &m) {
 
       .def("SetVerboseLevel", &G4RunManager::SetVerboseLevel)
       .def("GetVerboseLevel", &G4RunManager::GetVerboseLevel)
-
-      .def_static("GetRunManager", &G4RunManager::GetRunManager, py::return_value_policy::reference)
-        //      "Get an instance of G4RunManager",
-        //return_value_policy<reference_existing_object>())
-        //  .staticmethod("GetRunManager")
 
       .def("Initialize", &G4RunManager::Initialize)
       .def("BeamOn", &G4RunManager::BeamOn)

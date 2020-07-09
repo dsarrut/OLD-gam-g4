@@ -9,6 +9,7 @@
 namespace py = pybind11;
 
 #include "G4UImanager.hh"
+#include "G4UIsession.hh"
 #include "G4UIcommandTree.hh"
 
 void init_G4UImanager(py::module &m) {
@@ -20,6 +21,9 @@ void init_G4UImanager(py::module &m) {
 
       .def("GetCurrentValues", &G4UImanager::GetCurrentValues)
       .def("ExecuteMacroFile", &G4UImanager::ExecuteMacroFile)
+
+      .def("SetCoutDestination", &G4UImanager::SetCoutDestination)
+
 
         // .def("ApplyCommand",     f1_ApplyCommand)
         // .def("ApplyCommand",     f2_ApplyCommand)

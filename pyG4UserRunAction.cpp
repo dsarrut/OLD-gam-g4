@@ -23,6 +23,14 @@ public:
                           aRun
         );
     }
+
+    void EndOfRunAction(const G4Run* aRun) {
+        PYBIND11_OVERLOAD(void,
+                          G4UserRunAction,
+                          EndOfRunAction,
+                          aRun
+        );
+    }
 };
 
 void init_G4UserRunAction(py::module &m) {

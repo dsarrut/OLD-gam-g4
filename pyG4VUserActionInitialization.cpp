@@ -14,6 +14,7 @@ namespace py = pybind11;
 #include "G4Event.hh"
 #include "G4UserRunAction.hh"
 #include "G4UserEventAction.hh"
+#include "G4UserTrackingAction.hh"
 #include "G4UserSteppingAction.hh"
 
 // https://pybind11.readthedocs.io/en/stable/advanced/classes.html
@@ -53,23 +54,28 @@ public:
 
     // Trampoline needed for protected  + overloaded function
     void SetUserAction(G4UserRunAction* e) {
-        std::cout << "PyG4VUserActionInitialization::SetUserActionRun" << std::endl;
-        std::cout << "run " << e->IsMaster() << std::endl;
+        //std::cout << "PyG4VUserActionInitialization::SetUserActionRun" << std::endl;
+        //std::cout << "run " << e->IsMaster() << std::endl;
         G4VUserActionInitialization::SetUserAction(e);
     }
 
     void SetUserAction(G4VUserPrimaryGeneratorAction* e) {
-        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        //std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
         G4VUserActionInitialization::SetUserAction(e);
     }
 
     void SetUserAction(G4UserEventAction* e) {
-        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        //std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        G4VUserActionInitialization::SetUserAction(e);
+    }
+
+    void SetUserAction(G4UserTrackingAction* e) {
+        //std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
         G4VUserActionInitialization::SetUserAction(e);
     }
 
     void SetUserAction(G4UserSteppingAction* e) {
-        std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
+        //std::cout << "PyG4VUserActionInitialization::SetUserAction" << std::endl;
         G4VUserActionInitialization::SetUserAction(e);
     }
 
@@ -103,6 +109,10 @@ void init_G4VUserActionInitialization(py::module & m) {
       .def("SetUserAction",
            (void (G4VUserActionInitialization::*)(G4UserRunAction*))
            &PyG4VUserActionInitialization::SetUserAction)
+
+      .def("SetUserAction",
+           (void (G4VUserActionInitialization::*)(G4UserTrackingAction*))
+             &PyG4VUserActionInitialization::SetUserAction)
 
       .def("SetUserAction",
            (void (G4VUserActionInitialization::*)(G4UserEventAction*))

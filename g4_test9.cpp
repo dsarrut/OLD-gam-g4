@@ -26,11 +26,26 @@
 #include "G4UserSteppingBatchAction.h"
 #include "G4UserEventAction.hh"
 #include "G4VUserActionInitialization.hh"
-#include "GateTestActor.h"
+#include "GateDoseActor.h"
 
 #include <chrono>
 
 using namespace std::chrono;
+
+class GateUIsession : public G4UIsession {
+public:
+
+    virtual G4int ReceiveG4cout(const G4String & /*coutString*/) {
+        //std::cout << "HERE " << coutString << std::endl;
+        return 0;
+    }
+
+    virtual G4int ReceiveG4cerr(const G4String &cerrString) {
+        std::cout << "HERE CERR  " << cerrString << std::endl;
+        return 0;
+    }
+
+};
 
 class Test1DetectorConstruction : public G4VUserDetectorConstruction {
 public:
@@ -42,8 +57,8 @@ public:
 
     }
 
-    G4LogicalVolume * waterbox_log;
-    G4LogicalVolume * world_log;
+    G4LogicalVolume *waterbox_log;
+    G4LogicalVolume *world_log;
 
     virtual G4VPhysicalVolume *Construct() {
         // Get nist material manager
@@ -156,7 +171,7 @@ public:
 
     virtual ~B1EventAction() {}
 
-    virtual void BeginOfEventAction(const G4Event *event) {
+    virtual void BeginOfEventAction(const G4Event */*event*/) {
         //std::cout << "BeginOfEventAction " << event->GetEventID() << std::endl;
     }
 
@@ -196,7 +211,7 @@ public:
         auto dose = edep / density / volume / gray;
         auto depth = 400;
         auto p = step->GetPostStepPoint()->GetPosition();
-        auto n = (int)depth_dose.size();
+        int n = (int)depth_dose.size();
         auto i = (int) ((p.z() - 50) / depth * n);
         if (i > (n - 1)) i = n - 1;
         depth_dose[i] += dose;
@@ -210,7 +225,7 @@ public:
     int num_batch;
 
     B1SteppingBatchAction(B1EventAction * /*eventAction*/) :
-      G4UserSteppingBatchAction(100) {
+      G4UserSteppingBatchAction(100000) {
         num_batch = 0;
     }
 
@@ -248,7 +263,7 @@ public:
         SetUserAction(runAction);
         B1EventAction *eventAction = new B1EventAction(runAction);
         SetUserAction(eventAction);
-        SetUserAction(new B1SteppingAction(eventAction));
+        //SetUserAction(new B1SteppingAction(eventAction));
         //SetUserAction(new B1SteppingBatchAction(eventAction));
         //gen->init();
     }
@@ -259,6 +274,15 @@ public:
 int main() {
 
     std::cout << "hello world" << std::endl;
+
+    // get the pointer to the UI manager and set verbosities
+    G4UImanager *UI = G4UImanager::GetUIpointer();
+    //UI->ApplyCommand("/run/verbose 2");
+    //UI->ApplyCommand("/event/verbose 2");
+    //UI->ApplyCommand("/tracking/verbose 2");
+    GateUIsession *LoggedSession = new GateUIsession;
+    UI->SetCoutDestination(LoggedSession);
+
     // construct the default run manager
     G4RunManager *runManager = new G4RunManager;
     std::cout << "end" << std::endl;
@@ -290,14 +314,24 @@ int main() {
     runManager->Initialize();
 
     // get the pointer to the UI manager and set verbosities
-    // G4UImanager *UI = G4UImanager::GetUIpointer();
     //UI->ApplyCommand("/run/verbose 2");
     //UI->ApplyCommand("/event/verbose 2");
     //UI->ApplyCommand("/tracking/verbose 2");
 
+    auto actor = new GateDoseActor();
+    actor->RegisterSD(DC->waterbox_log);
+    actor->batch_size = 10000;
+    actor->InitSteps();
+
+    //auto actor2 = new GateTestActor();
+    //actor2->RegisterSD(DC->waterbox_log);
+
+    //auto actor3 = new GateTestActor();
+    //actor3->RegisterSD(DC->world_log);
+
     // start a run
     //int numberOfEvent = 30000;
-    int numberOfEvent = 10000;
+    int numberOfEvent = 5000;
     auto start = high_resolution_clock::now();
     runManager->BeamOn(numberOfEvent);
     auto stop = high_resolution_clock::now();
@@ -305,10 +339,14 @@ int main() {
     std::cout << "timing " << duration.count() / 1000.0 << " s " << std::endl;
     std::cout << "numberOfEvent " << numberOfEvent << std::endl;
 
+    actor->PrintDebug();
+    //actor2->PrintDebug();
+    //actor3->PrintDebug();
+
     //delete actor;
 
     // job termination
-    delete runManager;
+    //delete runManager;
     return 0;
 }
 //-----------------------------------------------------------------------------

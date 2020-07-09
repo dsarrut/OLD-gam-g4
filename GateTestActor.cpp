@@ -20,24 +20,35 @@ GateTestActor::~GateTestActor() {
     //delete mfd;
 }
 
-G4bool GateTestActor::ProcessHits(G4Step *step,
-                                  G4TouchableHistory *touchableHistory) {
+G4bool GateTestActor::ProcessHits(G4Step * /*step*/,
+                                  G4TouchableHistory * /*touchableHistory*/) {
     //std::cout << "GateTestActor::ProcessHits " << std::endl;
     num_step++;
     return true;
 }
 
-void GateTestActor::RegisterSD(G4LogicalVolume * logical_volume) {
+void GateTestActor::RegisterSD(G4LogicalVolume *logical_volume) {
     std::cout << "GateTestActor::registerSD" << std::endl;
-    mfd = new G4MultiFunctionalDetector("bidon_msd");
-    // do not always create check if exist
-    // auto pointer
-    G4SDManager::GetSDMpointer()->AddNewDetector(mfd);
-    logical_volume->SetSensitiveDetector(mfd);
+
+    auto currentSD = logical_volume->GetSensitiveDetector();
+    if (!currentSD) {
+        mfd = new G4MultiFunctionalDetector("mfd_"+logical_volume->GetName());
+        // do not always create check if exist
+        // auto pointer
+        G4SDManager::GetSDMpointer()->AddNewDetector(mfd);
+        logical_volume->SetSensitiveDetector(mfd);
+    } else {
+        mfd = dynamic_cast<G4MultiFunctionalDetector*>(currentSD);
+    }
+
     mfd->RegisterPrimitive(this);
     std::cout << "GateTestActor::registerSD DONE" << std::endl;
 }
 
 void GateTestActor::PrintDebug() {
     std::cout << "num step " << num_step << std::endl;
+}
+
+void GateTestActor::BeginOfEventAction(G4Event * event) {
+    std::cout << "Begin event " << event->GetEventID() << std::endl;
 }

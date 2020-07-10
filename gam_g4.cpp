@@ -94,6 +94,9 @@ void init_G4ParticleDefinition(py::module &);
 // tracking
 void init_G4VSteppingVerbose(py::module &);
 
+// digit_hits
+void init_G4VPrimitiveScorer(py::module &);
+
 // intercoms
 void init_G4UImanager(py::module &);
 
@@ -104,7 +107,7 @@ void init_GateVActor(py::module &);
 
 void init_GateSimulationStatisticsActor(py::module &);
 
-PYBIND11_MODULE(geant4, m) {
+PYBIND11_MODULE(gam_g4, m) {
 
     init_G4ThreeVector(m);
     init_G4String(m);
@@ -152,6 +155,8 @@ PYBIND11_MODULE(geant4, m) {
 
     init_G4ParticleTable(m);
     init_G4ParticleDefinition(m);
+
+    init_G4VPrimitiveScorer(m);
 
     init_G4UImanager(m);
     init_G4UIsession(m);

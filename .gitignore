@@ -9,7 +9,7 @@
 /build
 /save
 /save_sync
-/pyPhysicsLists.save.cpp
+/save/pyPhysicsLists.save.cpp
 
 /.idea
 

@@ -77,13 +77,16 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name='geant4',
+
+    FIXME --> DO NOT USE YET
+
+    name='gam_g4',
     version='0.0.1',
-    author='toto',
-    author_email='toto@gmail.com',
+    author='Opengate Collaboration',
+    author_email='FIXME',
     description='A test project using pybind11 and CMake',
     long_description='',
-    ext_modules=[CMakeExtension('geant4')],
+    ext_modules=[CMakeExtension('gam_g4')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
 )

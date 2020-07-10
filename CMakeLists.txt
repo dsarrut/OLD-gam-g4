@@ -6,7 +6,7 @@
 # --------------------------------------------------
 
 cmake_minimum_required(VERSION 2.8.12)
-project(geant4)
+project(gam_g4)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -32,17 +32,13 @@ else(ITK_FOUND)
     message(FATAL_ERROR "Cannot build without ITK.  Please set ITK_DIR.")
 endif(ITK_FOUND)
 
-# a simple G4 test
-#ADD_EXECUTABLE(g4_test1 g4_test1.cpp)
-#target_link_libraries(g4_test1 ${Geant4_LIBRARIES})
-
 # Create the geant4 python module
-pybind11_add_module(geant4
+pybind11_add_module(gam_g4
 
         #NO_EXTRAS
         #THIN_LTO
 
-        geant4.cpp
+        gam_g4.cpp
 
         pyG4ThreeVector.cpp
         pyG4String.cpp

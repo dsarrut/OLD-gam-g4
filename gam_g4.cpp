@@ -99,14 +99,9 @@ void init_G4UImanager(py::module &);
 
 void init_G4UIsession(py::module &);
 
-// Gate
-void init_G4VPrimitiveScorer(py::module &);
-void init_GateUserSteppingAction(py::module &);
-void init_GateTestActor(py::module &);
-
+// Gam
 void init_GateVActor(py::module &);
-void init_GateAActor(py::module &);
-void init_GateDoseActor(py::module &);
+
 void init_GateSimulationStatisticsActor(py::module &);
 
 PYBIND11_MODULE(geant4, m) {
@@ -141,8 +136,6 @@ PYBIND11_MODULE(geant4, m) {
     init_G4Step(m);
     init_G4UserSteppingAction(m);
 
-    init_G4UserSteppingBatchAction(m);
-
     init_G4VSolid(m);
     init_G4VPhysicalVolume(m);
     init_G4LogicalVolume(m);
@@ -163,12 +156,7 @@ PYBIND11_MODULE(geant4, m) {
     init_G4UImanager(m);
     init_G4UIsession(m);
 
-    init_G4VPrimitiveScorer(m);
-    init_GateUserSteppingAction(m);
-    init_GateTestActor(m);
-
+    // Gam
     init_GateVActor(m);
-    init_GateAActor(m);
-    init_GateDoseActor(m);
-    init_GateSimulationStatisticsActor(m)
-;}
+    init_GateSimulationStatisticsActor(m);
+}

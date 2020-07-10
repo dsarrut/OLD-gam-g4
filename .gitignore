@@ -3,7 +3,9 @@
 /venv
 /cmake-build-debug
 /cmake-build-release
+/cmake-build*
 /geant4.egg-info
+/gam_g4.egg-info
 /build
 /save
 /save_sync
@@ -11,4 +13,5 @@
 
 /.idea
 
+.DS_Store
 

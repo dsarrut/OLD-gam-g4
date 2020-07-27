@@ -13,27 +13,31 @@ set(CMAKE_CXX_STANDARD 14)
 # Need python 
 find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
-message(STATUS "PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
-message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
-message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
+message(STATUS "GAM - PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
+message(STATUS "GAM - PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
+message(STATUS "GAM - PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
 
 # Need Geant4
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
-message(STATUS "Geant4 version: ${Geant4_VERSION}")
+message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
 
 # Need pybind11
 find_package(pybind11 REQUIRED)
-message(STATUS "pybind11: ${pybind11_VERSION}")
-message(STATUS "pybind11: ${pybind11_INCLUDE_DIRS}")
+message(STATUS "GAM - pybind11 version = ${pybind11_VERSION}")
+message(STATUS "GAM - pybind11 = ${pybind11_INCLUDE_DIRS}")
 
 # itk
-find_package(ITK)
+find_package(ITK 5.0 REQUIRED)
 if (ITK_FOUND)
     include("${ITK_USE_FILE}")
+    message(STATUS "GAM - ITK version = ${ITK_VERSION}")
 else (ITK_FOUND)
     message(FATAL_ERROR "Cannot build without ITK.  Please set ITK_DIR.")
 endif (ITK_FOUND)
+
+# -DCMAKE_CXX_FLAGS="-Wno-self-assign"
+
 
 # Create the geant4 python module
 file(GLOB all_SRCS
@@ -50,7 +54,7 @@ pybind11_add_module(gam_g4
 if (WIN32)
     if (MSVC)
         #message("I am MSCV")
-        set_target_properties(geant4 PROPERTIES COMPILE_FLAGS "/MP /bigobj ")
+        set_target_properties(gam_g4 PROPERTIES COMPILE_FLAGS "/MP /bigobj ")
         # set_target_properties(geant4 PROPERTIES LINK_FLAGS "/LTCG ")
         #        if (NOT ${U_CMAKE_BUILD_TYPE} MATCHES DEBUG)
         #            message("I am HERE")
@@ -62,5 +66,5 @@ if (WIN32)
     endif ()
 endif ()
 
-target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES})
+target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} ${ITK_LIBRARIES})
 # Do not not add ${PYTHON_LIBRARIES}) here (seg fault)

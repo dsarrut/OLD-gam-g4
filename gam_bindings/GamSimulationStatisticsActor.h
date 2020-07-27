@@ -9,13 +9,13 @@
 #define GateSimulationStatisticsActor_h
 
 #include "G4VPrimitiveScorer.hh"
-#include "GateVActor.h"
+#include "GamVActor.h"
 
-class GateSimulationStatisticsActor : public GateVActor {
+class GamSimulationStatisticsActor : public GamVActor {
 
 public:
 
-    GateSimulationStatisticsActor():GateVActor("SimulationStatistics") {}
+    GamSimulationStatisticsActor(): GamVActor("SimulationStatistics") {}
 
     virtual void BeforeStart();
 

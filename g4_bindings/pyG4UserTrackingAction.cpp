@@ -16,7 +16,7 @@ public:
     /* Inherit the constructors */
     using G4UserTrackingAction::G4UserTrackingAction;
 
-    void PreUserTrackingAction(const G4Track* aTrack) {
+    void PreUserTrackingAction(const G4Track* aTrack) override {
         PYBIND11_OVERLOAD(void,
                           G4UserTrackingAction,
                           PreUserTrackingAction,
@@ -24,7 +24,7 @@ public:
         );
     }
 
-    void PostUserTrackingAction(const G4Track* aTrack) {
+    void PostUserTrackingAction(const G4Track* aTrack) override {
         PYBIND11_OVERLOAD(void,
                           G4UserTrackingAction,
                           PostUserTrackingAction,

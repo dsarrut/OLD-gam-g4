@@ -84,7 +84,7 @@ public:
 void init_G4VUserActionInitialization(py::module & m) {
 
     py::class_<G4VUserActionInitialization, PyG4VUserActionInitialization>(m, "G4VUserActionInitialization")
-      .def(py::init_alias<>())
+      .def(py::init<>())
 
         // pure virtual
         // Virtual method to be implemented by the user to instantiate user action

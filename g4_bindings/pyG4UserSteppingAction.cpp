@@ -17,7 +17,7 @@ public:
     /* Inherit the constructors */
     using G4UserSteppingAction::G4UserSteppingAction;
 
-    void UserSteppingAction(const G4Step *aStep) {
+    void UserSteppingAction(const G4Step *aStep) override {
         PYBIND11_OVERLOAD(void,
                           G4UserSteppingAction,
                           UserSteppingAction,

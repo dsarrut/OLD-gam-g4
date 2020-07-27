@@ -18,7 +18,7 @@ public:
     using G4UIsession::G4UIsession;
 
     // Trampoline (need one for each virtual function)
-    G4int ReceiveG4cout(const G4String &coutString) {
+    G4int ReceiveG4cout(const G4String &coutString) override {
         PYBIND11_OVERLOAD(G4int,
                           G4UIsession,
                           ReceiveG4cout,
@@ -27,7 +27,7 @@ public:
     }
 
     // Trampoline (need one for each virtual function)
-    G4int ReceiveG4cerr(const G4String &cerrString) {
+    G4int ReceiveG4cerr(const G4String &cerrString) override {
         PYBIND11_OVERLOAD(G4int,
                           G4UIsession,
                           ReceiveG4cerr,

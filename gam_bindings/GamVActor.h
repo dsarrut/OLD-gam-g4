@@ -12,13 +12,13 @@
 #include "G4Event.hh"
 #include "G4Run.hh"
 
-class GateVActor : public G4VPrimitiveScorer {
+class GamVActor : public G4VPrimitiveScorer {
 
 public:
 
-    GateVActor(std::string name);
+    GamVActor(std::string name);
 
-    virtual ~GateVActor();
+    virtual ~GamVActor();
 
     virtual void BeforeStart();
 
@@ -28,19 +28,20 @@ public:
 
     // do nothing by default will be overwritten
     virtual void BeginOfEventAction(const G4Event *event);
+
     virtual void EndOfEventAction(const G4Event *event);
+
     /*virtual void BeginOfRunAction(const G4Run * run);
     virtual void EndOfRunAction(const G4Run * run);
     virtual void BeginOfRunAction(const G4Run * run);
      */
     virtual void EndOfRunAction(const G4Run * /*run*/) {}
 
+    // This function should be overwritten if batch processing
+    virtual void SteppingBatchAction();
 
-    virtual void StepBatchAction();
-
-    //virtual void SteppingAction(G4Step *step);
     // FIXME all others
-    void ProcessBatch(bool force=false);
+    void ProcessBatch(bool force = false);
 
     std::vector<std::string> actions;
     int batch_step_count;

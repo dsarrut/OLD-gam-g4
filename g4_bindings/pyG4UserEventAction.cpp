@@ -16,7 +16,7 @@ public:
     /* Inherit the constructors */
     using G4UserEventAction::G4UserEventAction;
 
-    void BeginOfEventAction(const G4Event* anEvent) {
+    void BeginOfEventAction(const G4Event* anEvent) override {
         PYBIND11_OVERLOAD(void,
                           G4UserEventAction,
                           BeginOfEventAction,

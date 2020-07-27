@@ -43,7 +43,8 @@ class CMakeBuild(build_ext):
                       # '-DCMAKE_PREFIX_PATH=' + 'D:\David\src\pybind11_install'
                       ]
 
-        cfg = 'Debug' if self.debug else 'Release'
+        # cfg = 'Debug' if self.debug else 'Release'
+        cfg = 'Debug'
         build_args = ['--config', cfg]
 
         # Pile all .so in one place and use $ORIGIN as RPATH
@@ -78,7 +79,7 @@ class CMakeBuild(build_ext):
 
 setup(
 
-    FIXME --> DO NOT USE YET
+    # FIXME --> DO NOT USE YET
 
     name='gam_g4',
     version='0.0.1',

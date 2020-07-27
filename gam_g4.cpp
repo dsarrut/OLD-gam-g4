@@ -12,6 +12,8 @@ namespace py = pybind11;
 // management
 void init_G4ThreeVector(py::module &);
 
+void init_G4AffineTransform(py::module &);
+
 void init_G4String(py::module &);
 
 void init_G4RotationMatrix(py::module &);
@@ -59,7 +61,7 @@ void init_G4StepPoint(py::module &);
 
 void init_G4UserSteppingAction(py::module &);
 
-void init_G4UserSteppingBatchAction(py::module &);
+void init_GamTestProtonSource(py::module &);
 
 // geometry/management
 void init_G4VSolid(py::module &);
@@ -75,6 +77,10 @@ void init_G4Box(py::module &);
 
 // geometry/volume
 void init_G4PVPlacement(py::module &);
+
+void init_G4TouchableHistory(py::module &);
+
+void init_G4NavigationHistory(py::module &);
 
 // specific to python 
 void init_G4PhysicsLists(py::module &);
@@ -103,13 +109,22 @@ void init_G4UImanager(py::module &);
 void init_G4UIsession(py::module &);
 
 // Gam
-void init_GateVActor(py::module &);
+void init_GamVActor(py::module &);
 
-void init_GateSimulationStatisticsActor(py::module &);
+void init_GamVActorWithSteppingAction(py::module &);
+
+void init_GamSimulationStatisticsActor(py::module &);
+
+void init_GamDoseActor2(py::module &);
+
+void init_GamDoseActor3(py::module &);
+
+void init_itk_image(py::module &);
 
 PYBIND11_MODULE(gam_g4, m) {
 
     init_G4ThreeVector(m);
+    init_G4AffineTransform(m);
     init_G4String(m);
     init_G4RotationMatrix(m);
     init_G4UnitsTable(m);
@@ -138,6 +153,7 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4Track(m);
     init_G4Step(m);
     init_G4UserSteppingAction(m);
+    init_GamTestProtonSource(m);
 
     init_G4VSolid(m);
     init_G4VPhysicalVolume(m);
@@ -147,6 +163,8 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4Box(m);
 
     init_G4PVPlacement(m);
+    init_G4TouchableHistory(m);
+    init_G4NavigationHistory(m);
 
     init_G4PhysicsLists(m);
 
@@ -162,6 +180,11 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4UIsession(m);
 
     // Gam
-    init_GateVActor(m);
-    init_GateSimulationStatisticsActor(m);
+    init_GamVActor(m);
+    init_GamVActorWithSteppingAction(m);
+    init_GamSimulationStatisticsActor(m);
+    init_GamDoseActor2(m);
+    init_itk_image(m);
+    init_GamDoseActor3(m);
+
 }

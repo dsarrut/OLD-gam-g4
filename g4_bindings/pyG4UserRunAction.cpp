@@ -16,7 +16,7 @@ public:
     /* Inherit the constructors */
     using G4UserRunAction::G4UserRunAction;
 
-    void BeginOfRunAction(const G4Run* aRun) {
+    void BeginOfRunAction(const G4Run* aRun) override {
         PYBIND11_OVERLOAD(void,
                           G4UserRunAction,
                           BeginOfRunAction,
@@ -24,7 +24,7 @@ public:
         );
     }
 
-    void EndOfRunAction(const G4Run* aRun) {
+    void EndOfRunAction(const G4Run* aRun) override {
         PYBIND11_OVERLOAD(void,
                           G4UserRunAction,
                           EndOfRunAction,

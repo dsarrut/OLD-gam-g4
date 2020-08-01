@@ -30,6 +30,7 @@ void init_G4Material(py::module &);
 
 // run
 void init_G4RunManager(py::module &);
+void init_G4MTRunManager(py::module &);
 
 void init_G4VUserDetectorConstruction(py::module &);
 
@@ -137,6 +138,7 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4VSteppingVerbose(m);
 
     init_G4RunManager(m);
+    init_G4MTRunManager(m);
     init_G4VUserDetectorConstruction(m);
     init_G4VUserPhysicsList(m);
     init_G4VModularPhysicsList(m);

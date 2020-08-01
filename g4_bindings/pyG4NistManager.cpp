@@ -23,11 +23,11 @@ void init_G4NistManager(py::module &m) {
       .def("GetElement", &G4NistManager::GetElement, py::return_value_policy::reference_internal)
 
       .def("FindOrBuildMaterial",
-           [](G4NistManager *m,
+           [](G4NistManager *mm,
               const G4String &symb,
               G4bool isotopes = true,
               G4bool warning = false) {
-               return m->FindOrBuildMaterial(symb, isotopes, warning);
+               return mm->FindOrBuildMaterial(symb, isotopes, warning);
            },
            py::arg("symb"),
            py::arg("isotopes") = true,

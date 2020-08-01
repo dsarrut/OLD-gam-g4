@@ -42,7 +42,7 @@ endif (ITK_FOUND)
 # Create the geant4 python module
 file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/g4_bindings/*.cpp"
-        "${PROJECT_SOURCE_DIR}/gam_bindings/*.cpp"
+        "${PROJECT_SOURCE_DIR}/gam_lib/*.cpp"
         )
 pybind11_add_module(gam_g4
         #NO_EXTRAS

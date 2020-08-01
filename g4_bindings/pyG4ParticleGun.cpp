@@ -13,56 +13,18 @@ namespace py = pybind11;
 #include "G4RunManager.hh"
 #include "G4VPrimaryGenerator.hh"
 
-// ====================================================================
-// namespace pyParticleGun {
-
-// G4ParticleGun* Construct()
-// {
-//   G4RunManager* runMgr= G4RunManager::GetRunManager();
-
-//   ParticleGunAction* pga= new ParticleGunAction;
-//   runMgr-> SetUserAction(pga);
-
-//   return pga-> GetParticleGun();
-// }
-
-// }
-
-// using namespace pyParticleGun;
-
-// https://pybind11.readthedocs.io/en/stable/advanced/classes.html
-// Needed helper class because of the pure virtual method
-class PyG4ParticleGun : public G4ParticleGun {
-public:
-    // Inherit the constructors
-    using G4ParticleGun::G4ParticleGun;
-
-    // Trampoline (need one for each virtual function)
-    void GeneratePrimaryVertex(G4Event *evt) override {
-        std::cout << "@@@@PyG4ParticleGun GeneratePrimaryVertex " << std::endl;
-        PYBIND11_OVERLOAD(void,
-                          G4ParticleGun,
-                          GeneratePrimaryVertex,
-                          evt);
-    }
-
-};
-
 void init_G4ParticleGun(py::module &m) {
 
-    py::class_<G4ParticleGun, PyG4ParticleGun, G4VPrimaryGenerator>(m, "G4ParticleGun")
+    py::class_<G4ParticleGun, G4VPrimaryGenerator>(m, "G4ParticleGun")
 
-      .def(py::init())
-      .def(py::init<int>())
-
-      .def("GeneratePrimaryVertex", &G4ParticleGun::GeneratePrimaryVertex)
-      .def("SetParticleDefinition", &G4ParticleGun::SetParticleDefinition)
-
-      .def("SetParticleMomentumDirection", &G4ParticleGun::SetParticleMomentumDirection)
-
-      .def("SetParticleEnergy", &G4ParticleGun::SetParticleEnergy)
-
-      .def("SetParticlePosition", &G4ParticleGun::SetParticlePosition)
+        .def(py::init())
+        .def(py::init<int>())
+        .def("GeneratePrimaryVertex", &G4ParticleGun::GeneratePrimaryVertex)
+        .def("SetParticleDefinition", &G4ParticleGun::SetParticleDefinition)
+        .def("SetParticleMomentumDirection", &G4ParticleGun::SetParticleMomentumDirection)
+        .def("SetParticleEnergy", &G4ParticleGun::SetParticleEnergy)
+        .def("SetParticlePosition", &G4ParticleGun::SetParticlePosition)
+        .def("SetParticleTime", &G4ParticleGun::SetParticleTime)
 
         /*
 
@@ -107,6 +69,6 @@ void init_G4ParticleGun(py::module &m) {
         // def("Construct", Construct,
         //     return_value_policy<reference_existing_object>());
 
-      ;
+        ;
 }
 

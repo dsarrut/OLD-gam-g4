@@ -34,7 +34,7 @@ public:
 
 void init_GamVActorWithSteppingAction(py::module &m) {
     py::class_<GamVActorWithSteppingAction, PyGamVActorWithSteppingAction, GamVActor>(m, "GamVActorWithSteppingAction")
-            .def(py::init<std::string>())
-            .def("SteppingAction", &GamVActorWithSteppingAction::SteppingAction);
+        .def(py::init<std::string>())
+        .def("SteppingAction", &GamVActorWithSteppingAction::SteppingAction);
 }
 

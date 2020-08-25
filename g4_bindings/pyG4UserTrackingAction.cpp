@@ -16,7 +16,7 @@ public:
     /* Inherit the constructors */
     using G4UserTrackingAction::G4UserTrackingAction;
 
-    void PreUserTrackingAction(const G4Track* aTrack) override {
+    void PreUserTrackingAction(const G4Track *aTrack) override {
         PYBIND11_OVERLOAD(void,
                           G4UserTrackingAction,
                           PreUserTrackingAction,
@@ -24,7 +24,7 @@ public:
         );
     }
 
-    void PostUserTrackingAction(const G4Track* aTrack) override {
+    void PostUserTrackingAction(const G4Track *aTrack) override {
         PYBIND11_OVERLOAD(void,
                           G4UserTrackingAction,
                           PostUserTrackingAction,
@@ -36,8 +36,8 @@ public:
 void init_G4UserTrackingAction(py::module &m) {
 
     py::class_<G4UserTrackingAction, PyG4UserTrackingAction>(m, "G4UserTrackingAction")
-      .def(py::init())
-      .def("PreUserTrackingAction", &G4UserTrackingAction::PreUserTrackingAction)
-      .def("PostUserTrackingAction", &G4UserTrackingAction::PostUserTrackingAction);
+        .def(py::init())
+        .def("PreUserTrackingAction", &G4UserTrackingAction::PreUserTrackingAction)
+        .def("PostUserTrackingAction", &G4UserTrackingAction::PostUserTrackingAction);
 }
 

@@ -64,7 +64,7 @@ namespace pyPhysicsLists {
 
     void AddPhysicsList(const G4String &plname) {
         //std::cout << "[pyg4bind11] AddPhysicsList " << plname << std::endl;
-         plList.push_back(plname);
+        plList.push_back(plname);
     }
 
     void ListPhysicsList() {

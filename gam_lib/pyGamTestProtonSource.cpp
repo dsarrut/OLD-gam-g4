@@ -17,7 +17,7 @@ namespace py = pybind11;
 void init_GamTestProtonSource(py::module &m) {
 
     py::class_<GamTestProtonSource, G4VUserPrimaryGeneratorAction>(m, "GamTestProtonSource")
-            .def(py::init())
-            .def("GeneratePrimaries", &GamTestProtonSource::GeneratePrimaries);
+        .def(py::init())
+        .def("GeneratePrimaries", &GamTestProtonSource::GeneratePrimaries);
 }
 

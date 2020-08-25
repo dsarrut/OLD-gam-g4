@@ -28,6 +28,10 @@ void init_G4NistManager(py::module &);
 
 void init_G4Material(py::module &);
 
+void init_G4Element(py::module &);
+
+void init_G4IonisParamMat(py::module &);
+
 // run
 void init_G4RunManager(py::module &);
 void init_G4MTRunManager(py::module &);
@@ -134,6 +138,8 @@ PYBIND11_MODULE(gam_g4, m) {
 
     init_G4NistManager(m);
     init_G4Material(m);
+    init_G4Element(m);
+    init_G4IonisParamMat(m);
 
     init_G4VSteppingVerbose(m);
 

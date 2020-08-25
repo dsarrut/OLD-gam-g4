@@ -28,8 +28,8 @@ public:
     ImageType::Pointer cpp_image;
 
 protected:
-     ImageType::IndexType index;
-     ImageType::PointType point;
+    ImageType::IndexType index;
+    ImageType::PointType point;
 
 };
 

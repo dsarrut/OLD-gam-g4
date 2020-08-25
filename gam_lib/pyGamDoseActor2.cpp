@@ -33,9 +33,9 @@ public:
 
 void init_GamDoseActor2(py::module &m) {
     py::class_<GamDoseActor2, PyGamDoseActor2, GamVActor>(m, "GamDoseActor2")
-            .def(py::init())
-            .def("SteppingBatchAction", &GamDoseActor2::SteppingBatchAction)
-            .def_readonly("vpositions", &GamDoseActor2::vpositions);
+        .def(py::init())
+        .def("SteppingBatchAction", &GamDoseActor2::SteppingBatchAction)
+        .def_readonly("vpositions", &GamDoseActor2::vpositions);
     py::bind_vector<std::vector<G4ThreeVector>>(m, "VectorG4ThreeVector");
 }
 

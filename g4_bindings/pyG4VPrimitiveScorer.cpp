@@ -18,7 +18,7 @@ public:
     using G4VPrimitiveScorer::G4VPrimitiveScorer;
 
 
-    G4bool ProcessHits(G4Step * aStep, G4TouchableHistory * aTouchable) override {
+    G4bool ProcessHits(G4Step *aStep, G4TouchableHistory *aTouchable) override {
         // std::cout << "PyG4VPrimitiveScorer trampoline " << std::endl;
         PYBIND11_OVERLOAD_PURE(G4bool,
                                G4VPrimitiveScorer,
@@ -33,9 +33,9 @@ public:
 void init_G4VPrimitiveScorer(py::module &m) {
 
     py::class_<G4VPrimitiveScorer, PyG4VPrimitiveScorer>(m, "G4VPrimitiveScorer")
-      .def(py::init<G4String, G4int>())
-      //.def("ProcessHits", &G4VPrimitiveScorer::ProcessHits)
+        .def(py::init<G4String, G4int>())
+        //.def("ProcessHits", &G4VPrimitiveScorer::ProcessHits)
         //.def("UserSteppingBatchAction", &G4VPrimitiveScorer::UserSteppingBatchAction)
-      ;
+        ;
 }
 

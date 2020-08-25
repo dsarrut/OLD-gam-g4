@@ -15,7 +15,7 @@ class GamSimulationStatisticsActor : public GamVActor {
 
 public:
 
-    GamSimulationStatisticsActor(): GamVActor("SimulationStatistics") {}
+    GamSimulationStatisticsActor() : GamVActor("SimulationStatistics") {}
 
     virtual void BeforeStart();
 

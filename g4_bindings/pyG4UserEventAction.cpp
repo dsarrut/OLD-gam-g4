@@ -16,7 +16,7 @@ public:
     /* Inherit the constructors */
     using G4UserEventAction::G4UserEventAction;
 
-    void BeginOfEventAction(const G4Event* anEvent) override {
+    void BeginOfEventAction(const G4Event *anEvent) override {
         PYBIND11_OVERLOAD(void,
                           G4UserEventAction,
                           BeginOfEventAction,
@@ -28,8 +28,8 @@ public:
 void init_G4UserEventAction(py::module &m) {
 
     py::class_<G4UserEventAction, PyG4UserEventAction>(m, "G4UserEventAction")
-      .def(py::init())
-      .def("BeginOfEventAction", &G4UserEventAction::BeginOfEventAction)
-      .def("EndOfEventAction", &G4UserEventAction::EndOfEventAction);
+        .def(py::init())
+        .def("BeginOfEventAction", &G4UserEventAction::BeginOfEventAction)
+        .def("EndOfEventAction", &G4UserEventAction::EndOfEventAction);
 }
 

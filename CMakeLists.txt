@@ -55,6 +55,9 @@ if (WIN32)
     if (MSVC)
         #message("I am MSCV")
         set_target_properties(gam_g4 PROPERTIES COMPILE_FLAGS "/MP /bigobj ")
+        #set_target_properties(gam_g4 PROPERTIES LINK_FLAGS "/NODEFAULTLIB:itkvnl_algo-5.1.lib")
+
+        # /NODEFAULTLIB
         # set_target_properties(geant4 PROPERTIES LINK_FLAGS "/LTCG ")
         #        if (NOT ${U_CMAKE_BUILD_TYPE} MATCHES DEBUG)
         #            message("I am HERE")

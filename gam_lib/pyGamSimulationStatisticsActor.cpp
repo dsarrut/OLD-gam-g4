@@ -51,11 +51,10 @@ public:
 };
 
 void init_GamSimulationStatisticsActor(py::module &m) {
-    py::class_<GamSimulationStatisticsActor, PyGamSimulationStatisticsActor, GamVActor>(m, "GamSimulationStatisticsActor")
-      .def(py::init())
-      .def("SteppingBatchAction", &GamSimulationStatisticsActor::SteppingBatchAction)
-      .def_readonly("step_count", &GamSimulationStatisticsActor::step_count)
-
-      ;
+    py::class_<GamSimulationStatisticsActor, PyGamSimulationStatisticsActor, GamVActor>(m,
+                                                                                        "GamSimulationStatisticsActor")
+        .def(py::init())
+        .def("SteppingBatchAction", &GamSimulationStatisticsActor::SteppingBatchAction)
+        .def_readonly("step_count", &GamSimulationStatisticsActor::step_count);
 }
 

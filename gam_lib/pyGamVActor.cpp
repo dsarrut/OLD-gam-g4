@@ -16,13 +16,13 @@ namespace py = pybind11;
 void init_GamVActor(py::module &m) {
 
     py::class_<GamVActor, G4VPrimitiveScorer>(m, "GamVActor")
-            .def(py::init<std::string>())
-            .def("RegisterSD", &GamVActor::RegisterSD)
-            .def("BeforeStart", &GamVActor::BeforeStart)
-            .def_readwrite("actions", &GamVActor::actions)
-            .def_readonly("batch_step_count", &GamVActor::batch_step_count)
-            .def_readwrite("batch_size", &GamVActor::batch_size)
-            .def("ProcessBatch", &GamVActor::ProcessBatch)
-            .def("EndOfRunAction", &GamVActor::EndOfRunAction);
+        .def(py::init<std::string>())
+        .def("RegisterSD", &GamVActor::RegisterSD)
+        .def("BeforeStart", &GamVActor::BeforeStart)
+        .def_readwrite("actions", &GamVActor::actions)
+        .def_readonly("batch_step_count", &GamVActor::batch_step_count)
+        .def_readwrite("batch_size", &GamVActor::batch_size)
+        .def("ProcessBatch", &GamVActor::ProcessBatch)
+        .def("EndOfRunAction", &GamVActor::EndOfRunAction);
 }
 

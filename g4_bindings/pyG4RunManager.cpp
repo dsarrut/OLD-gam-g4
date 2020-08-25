@@ -38,8 +38,7 @@ void init_G4RunManager(py::module &m) {
         .def("ConfirmBeamOnCondition", &G4RunManager::ConfirmBeamOnCondition)
         .def("RunTermination", &G4RunManager::RunTermination)
         .def("TerminateEventLoop", &G4RunManager::TerminateEventLoop)
-
-
+        .def("RunInitialization", &G4RunManager::RunInitialization)
         /*
 
         // ---

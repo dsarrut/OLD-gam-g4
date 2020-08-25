@@ -15,11 +15,12 @@ class GamVActorWithSteppingAction : public GamVActor {
 
 public:
 
-    GamVActorWithSteppingAction(std::string name):GamVActor(name) {}
+    GamVActorWithSteppingAction(std::string name) : GamVActor(name) {}
 
     virtual void BeforeStart();
 
     virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
+
     virtual void SteppingAction(G4Step *, G4TouchableHistory *);
 
 };

@@ -17,7 +17,7 @@ GamDoseActor3::GamDoseActor3() : GamVActor("DoseActor3") {
 }
 
 void GamDoseActor3::BeforeStart() {
-    std::cout << "DoseActor3 Before Start" << std::endl;
+    // std::cout << "DoseActor3 Before Start" << std::endl;
 }
 
 

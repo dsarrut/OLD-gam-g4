@@ -30,9 +30,10 @@ IF(Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
 ENDIF()
 
 # Need pybind11
-find_package(pybind11 REQUIRED)
-message(STATUS "GAM - pybind11 version = ${pybind11_VERSION}")
-message(STATUS "GAM - pybind11 = ${pybind11_INCLUDE_DIRS}")
+add_subdirectory(pybind11)
+#find_package(pybind11 REQUIRED)
+#message(STATUS "GAM - pybind11 version = ${pybind11_VERSION}")
+#message(STATUS "GAM - pybind11 = ${pybind11_INCLUDE_DIRS}")
 
 # itk
 find_package(ITK 5.0 REQUIRED)

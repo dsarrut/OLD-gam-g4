@@ -4,7 +4,7 @@ import sys
 import platform
 import subprocess
 
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 from distutils.version import LooseVersion
 
@@ -44,7 +44,7 @@ class CMakeBuild(build_ext):
                       ]
 
         # cfg = 'Debug' if self.debug else 'Release'
-        cfg = 'Debug'
+        cfg = 'Release'
         build_args = ['--config', cfg]
 
         # Pile all .so in one place and use $ORIGIN as RPATH
@@ -82,12 +82,18 @@ setup(
     # FIXME --> DO NOT USE YET
 
     name='gam_g4',
-    version='0.0.1',
+    version='0.0.2',
     author='Opengate Collaboration',
-    author_email='FIXME',
+    author_email='david.sarrut@creatis.insa-lyon.fr',
     description='A test project using pybind11 and CMake',
     long_description='',
+    ext_package='gam_g4',
     ext_modules=[CMakeExtension('gam_g4')],
     cmdclass=dict(build_ext=CMakeBuild),
+    packages=find_packages(),
     zip_safe=False,
+    python_requires='>=3.5',
+    install_requires=[
+        'wget',
+    ],
 )

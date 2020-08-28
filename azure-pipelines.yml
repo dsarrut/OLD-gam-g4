@@ -1,0 +1,187 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+- pipInstall
+
+
+jobs:
+- job: Linux
+  timeoutInMinutes: 360 # how long to run the job before automatically cancelling
+
+  strategy:
+    matrix:
+      Linux-Python35:
+        STRATEGY_NAME: 'Linux-Python35'
+        imageName: 'ubuntu-latest'
+        python.version: '3.5'
+      Linux-Python36:
+        STRATEGY_NAME: 'Linux_Python36'
+        imageName: 'ubuntu-latest'
+        python.version: '3.6'
+      Linux-Python37:
+        STRATEGY_NAME: 'Linux_Python37'
+        imageName: 'ubuntu-latest'
+        python.version: '3.7'
+      Linux-Python38:
+        STRATEGY_NAME: 'Linux_Python38'
+        imageName: 'ubuntu-latest'
+        python.version: '3.8'
+      Linux-Python39:
+        STRATEGY_NAME: 'Linux_Python38'
+        imageName: 'ubuntu-latest'
+        python.version: '3.9'
+
+  pool:
+    vmImage: $(imageName)
+
+  variables:
+    GEANT4_VERSION: 'v10.6.1'
+    ITK_VERSION: 'v5.1.0'
+    GEANT4_DIR: $(Pipeline.Workspace)/software/geant4
+    OSVERSION: 0
+    PYTHONFOLDERMANYLINUX: ""
+    PYTHONCACHEVERSION: 35
+
+  steps:
+  - checkout: self
+    submodules: recursive
+    path: software/gam_g4
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+
+  - script: |
+      sudo apt-get update -qq
+      sudo apt-get install -y gcc \
+                              g++ \
+                              make \
+                              binutils \
+                              libx11-dev \
+                              libxpm-dev \
+                              libxft-dev \
+                              libxext-dev \
+                              qt5-default \
+                              git \
+                              cmake \
+                              python3.7-dev \
+                              ccache \
+                              fftw3-dev
+      gcc -v
+      cd $(Pipeline.Workspace)
+      mkdir software
+      cmake --version
+    displayName: 'Install dependencies'
+
+  - script: |
+      OSRELEASE=`lsb_release -rs`
+      echo "OSVERSION:"
+      echo $OSRELEASE
+      echo "##vso[task.setvariable variable=OSVERSION]$OSRELEASE"
+      
+      if [ $(python.version) == "3.5" ]; then
+        export PYTHONFOLDER="cp35-cp35m"
+      elif  [ $(python.version) == "3.6" ]; then
+        export PYTHONFOLDER="cp36-cp36m"
+      elif [ $(python.version) == "3.7" ]; then
+        export PYTHONFOLDER="cp37-cp37m"
+      elif [ $(python.version) == "3.8" ]; then
+        export PYTHONFOLDER="cp38-cp38"
+      elif [ $(python.version) == "3.9" ]; then
+        export PYTHONFOLDER="cp39-cp39"
+      fi
+      echo "PYTHONFOLDER:"
+      echo $PYTHONFOLDER
+      echo "##vso[task.setvariable variable=PYTHONFOLDERMANYLINUX]$PYTHONFOLDER"
+    displayName: "Set variable values"
+
+  - bash: |
+      docker run --rm -e "PYTHONFOLDER=${PYTHONFOLDERMANYLINUX}" -v $(Pipeline.Workspace)/software:/home tbaudier/gam_g4 /home/gam_g4/ci/azureCreateWheelLinux.sh
+      ls $(Pipeline.Workspace)/software
+      ls $(Pipeline.Workspace)/software/wheelhouse
+    displayName: 'Run wheel creation on Manylinux Docker'
+
+  - task: TwineAuthenticate@1
+    inputs:
+      artifactFeed: 'tbaudier'
+      pythonUploadServiceConnection: 'gam_g4'
+
+  - script: |
+      cd $(Pipeline.Workspace)/software/wheelhouse
+      pip install twine
+      python -m twine upload --skip-existing -r "gam_g4" --config-file $(PYPIRC_PATH) *manylinux*.whl
+    displayName: 'Upload wheel on pypi'
+
+- job: Mac
+  timeoutInMinutes: 360 # how long to run the job before automatically cancelling
+
+  strategy:
+    matrix:
+      MacOS-Python35:
+        STRATEGY_NAME: 'MacOS-Python35'
+        imageName: 'macos-latest'
+        python.version: '3.5'
+      MacOS-Python36:
+        STRATEGY_NAME: 'MacOS-Python36'
+        imageName: 'macos-latest'
+        python.version: '3.6'
+      MacOS-Python37:
+        STRATEGY_NAME: 'MacOS-Python37'
+        imageName: 'macos-latest'
+        python.version: '3.7'
+      MacOS-Python38:
+        STRATEGY_NAME: 'MacOS-Python38'
+        imageName: 'macos-latest'
+        python.version: '3.8'
+  pool:
+    vmImage: $(imageName)
+
+  variables:
+    GEANT4_VERSION: 'v10.6.1'
+    ITK_VERSION: 'v5.1.0'
+    GEANT4_DIR: $(Pipeline.Workspace)/software/geant4
+    OSVERSION: 0
+    PYTHONCACHEVERSION: 35
+
+  steps:
+  - checkout: self
+    submodules: recursive
+    path: software/gam_g4
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+
+  - script: |
+      brew update
+      brew install  qt5 \
+                    ccache \
+                    fftw \
+                    llvm \
+                    libomp \
+                    wget
+      brew link qt5 --force && sudo ln -s /usr/local/opt/qt/mkspecs /usr/local/mkspecs && sudo ln -s /usr/local/opt/qt/plugins /usr/local/plugins
+      export PATH=/usr/local/opt/qt/bin:$PATH
+      export LDFLAGS="-L/usr/local/opt/qt/lib -L/usr/local/opt/llvm/lib"
+      export CPPFLAGS="-I/usr/local/opt/qt/include -I/usr/local/opt/llvm/include -fopenmp"
+      cd $(Pipeline.Workspace)
+      mkdir software
+      cmake --version
+    displayName: 'Install dependencies'
+
+  - script: |
+      OSRELEASE=`sw_vers -productVersion`
+      echo "OSVERSION:"
+      echo $OSRELEASE
+      echo "##vso[task.setvariable variable=OSVERSION]$OSRELEASE"
+    displayName: "Set OSVERSION Value"
+
+  - template: ci/azureCreateWheelMac.yml
+
+
+
+

@@ -1,0 +1,73 @@
+steps:
+- task: Cache@2
+  inputs:
+    key: 'ccache | "$(Agent.OS)_$(OSVERSION)_geant4_$(GEANT4_VERSION)_itk_$(ITK_VERSION)"'
+    path: $(Pipeline.Workspace)/software
+    cacheHitVar: CACHE_RESTORED
+  displayName: ccache
+
+- script: |
+    if [ "$CACHE_RESTORED" == "false" ]; then
+      if [ "$STRATEGY_NAME" == "MacOS-Python$(PYTHONCACHEVERSION)" ]; then
+        cd $(Pipeline.Workspace)/software
+        mkdir geant4
+        cd geant4
+        mkdir src bin install data
+        git clone  --branch $GEANT4_VERSION https://github.com/Geant4/geant4.git --depth 1 src
+        cd bin
+        cmake -DGEANT4_INSTALL_DATA=ON \
+              -DGEANT4_INSTALL_DATADIR=$(GEANT4_DIR)/data \
+              ../src
+        make -j4
+      fi
+    fi
+  displayName: 'Install geant4'
+  
+- script: |
+    if [ "$CACHE_RESTORED" == "false" ]; then
+      if [ "$STRATEGY_NAME" == "MacOS-Python$(PYTHONCACHEVERSION)" ]; then
+        cd $(Pipeline.Workspace)/software
+        mkdir itk
+        cd itk
+        mkdir src bin
+        git clone --branch $ITK_VERSION https://github.com/InsightSoftwareConsortium/ITK.git --depth 1 src
+        cd bin
+        cmake -DBUILD_TESTING=OFF -DITK_USE_FFTWD=ON -DITK_USE_FFTWF=ON -DITK_USE_SYSTEM_FFTW:BOOL=ON ../src
+        make -j4
+      fi
+    fi
+  displayName: 'Install itk'
+
+- bash: |
+    if [ "$CACHE_RESTORED" == "true" ] || [ "$STRATEGY_NAME" == "MacOS-Python$(PYTHONCACHEVERSION)" ]; then
+      cd $(Pipeline.Workspace)
+      source $(GEANT4_DIR)/bin/geant4.sh
+      export CMAKE_PREFIX_PATH=$(GEANT4_DIR)/bin:$(Pipeline.Workspace)/software/itk/bin/:${CMAKE_PREFIX_PATH}
+      cd $(Pipeline.Workspace)/software/gam_g4
+      pip install wheel delocate
+      python3 setup.py sdist bdist_wheel
+      ls dist
+      export DYLD_LIBRARY_PATH=$(GEANT4_DIR)/bin/BuildProducts/lib:$DYLD_LIBRARY_PATH
+      delocate-wheel -w fixed_wheels -v dist/*.whl
+      ls fixed_wheels
+      delocate-listdeps --all fixed_wheels/*.whl
+    else
+      echo "Just store cache now"
+      echo "Run the CI again to compile gam_g4"
+      if [ ! "$STRATEGY_NAME" == "MacOS-Python$(PYTHONCACHEVERSION)" ]; then
+        exit 1
+      fi
+    fi
+  displayName: 'Build gam_g4'
+
+- task: TwineAuthenticate@1
+  inputs:
+    artifactFeed: 'tbaudier'
+    pythonUploadServiceConnection: 'gam_g4'
+
+- script: |
+    cd $(Pipeline.Workspace)/software/gam_g4
+    pip install twine
+    python -m twine upload --skip-existing -r "gam_g4" --config-file $(PYPIRC_PATH) fixed_wheels/*.whl
+  displayName: 'Upload wheel on pypi'
+

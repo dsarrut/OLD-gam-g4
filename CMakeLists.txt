@@ -10,13 +10,6 @@ project(gam_g4)
 
 set(CMAKE_CXX_STANDARD 14)
 
-# Need python 
-find_package(PythonLibs 3 REQUIRED)
-include_directories(${PYTHON_INCLUDE_DIRS})
-message(STATUS "GAM - PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
-message(STATUS "GAM - PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
-message(STATUS "GAM - PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
-
 # Need Geant4
 find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
@@ -48,13 +41,13 @@ endif (ITK_FOUND)
 
 # Create the geant4 python module
 file(GLOB all_SRCS
-        "${PROJECT_SOURCE_DIR}/g4_bindings/*.cpp"
-        "${PROJECT_SOURCE_DIR}/gam_lib/*.cpp"
+        "${PROJECT_SOURCE_DIR}/gam_g4/g4_bindings/*.cpp"
+        "${PROJECT_SOURCE_DIR}/gam_g4/gam_lib/*.cpp"
         )
 pybind11_add_module(gam_g4
         #NO_EXTRAS
         #THIN_LTO
-        gam_g4.cpp
+        gam_g4/gam_g4.cpp
         ${all_SRCS}
         )
 

@@ -34,6 +34,7 @@ void init_G4IonisParamMat(py::module &);
 
 // run
 void init_G4RunManager(py::module &);
+
 void init_G4MTRunManager(py::module &);
 
 void init_G4VUserDetectorConstruction(py::module &);
@@ -75,10 +76,14 @@ void init_G4VPhysicalVolume(py::module &);
 
 void init_G4LogicalVolume(py::module &);
 
+void init_G4LogicalVolumeStore(py::module &);
+
 void init_G4GeometryManager(py::module &);
 
 // geometry/solids
 void init_G4Box(py::module &);
+
+void init_G4Sphere(py::module &);
 
 // geometry/volume
 void init_G4PVPlacement(py::module &);
@@ -166,9 +171,11 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4VSolid(m);
     init_G4VPhysicalVolume(m);
     init_G4LogicalVolume(m);
+    init_G4LogicalVolumeStore(m);
     init_G4GeometryManager(m);
 
     init_G4Box(m);
+    init_G4Sphere(m);
 
     init_G4PVPlacement(m);
     init_G4TouchableHistory(m);

@@ -16,7 +16,8 @@ void init_G4Sphere(py::module &m) {
 
         .def(py::init<const G4String &, G4double, G4double,
             G4double, G4double, G4double, G4double>())
-            
+
+            // the following are not really needed
         .def("GetInnerRadius", &G4Sphere::GetInnerRadius)
         .def("GetOuterRadius", &G4Sphere::GetOuterRadius)
         .def("GetStartPhiAngle", &G4Sphere::GetStartPhiAngle)

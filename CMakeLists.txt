@@ -18,9 +18,16 @@ message(STATUS "GAM - PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
 message(STATUS "GAM - PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
 
 # Need Geant4
-find_package(Geant4 REQUIRED)
+find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
 message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
+
+# QT in Geant4
+IF(Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
+    message(STATUS "GAM - Geant4 is compiled with QT")
+    FIND_PACKAGE(OpenGL QUIET)
+    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+ENDIF()
 
 # Need pybind11
 find_package(pybind11 REQUIRED)
@@ -37,7 +44,6 @@ else (ITK_FOUND)
 endif (ITK_FOUND)
 
 # -DCMAKE_CXX_FLAGS="-Wno-self-assign"
-
 
 # Create the geant4 python module
 file(GLOB all_SRCS

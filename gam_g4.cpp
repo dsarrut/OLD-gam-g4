@@ -7,6 +7,8 @@
 
 #include <pybind11/pybind11.h>
 
+#include "g4_bindings/GamConfiguration.h"
+
 namespace py = pybind11;
 
 // management
@@ -118,6 +120,17 @@ void init_G4UImanager(py::module &);
 
 void init_G4UIsession(py::module &);
 
+// visualisation/management
+
+void init_G4VisManager(py::module &);
+void init_G4VisExecutive(py::module &);
+
+// interfaces
+
+void init_G4UIExecutive(py::module &);
+void init_G4UIQt(py::module &);
+void init_QMainWindow(py::module &);
+
 // Gam
 void init_GamVActor(py::module &);
 
@@ -193,6 +206,14 @@ PYBIND11_MODULE(gam_g4, m) {
 
     init_G4UImanager(m);
     init_G4UIsession(m);
+
+    init_G4VisManager(m);
+    init_G4VisExecutive(m);
+
+    // interfaces
+    init_QMainWindow(m);
+    init_G4UIExecutive(m);
+    init_G4UIQt(m);
 
     // Gam
     init_GamVActor(m);

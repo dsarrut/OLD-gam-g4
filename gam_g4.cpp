@@ -89,6 +89,8 @@ void init_G4Box(py::module &);
 
 void init_G4Sphere(py::module &);
 
+void init_G4Trap(py::module &);
+
 // geometry/volume
 void init_G4PVPlacement(py::module &);
 
@@ -125,12 +127,15 @@ void init_G4UIsession(py::module &);
 // visualisation/management
 
 void init_G4VisManager(py::module &);
+
 void init_G4VisExecutive(py::module &);
 
 // interfaces
 
 void init_G4UIExecutive(py::module &);
+
 void init_G4UIQt(py::module &);
+
 void init_QMainWindow(py::module &);
 
 // Gam
@@ -192,6 +197,7 @@ PYBIND11_MODULE(gam_g4, m) {
 
     init_G4Box(m);
     init_G4Sphere(m);
+    init_G4Trap(m);
 
     init_G4PVPlacement(m);
     init_G4TouchableHistory(m);

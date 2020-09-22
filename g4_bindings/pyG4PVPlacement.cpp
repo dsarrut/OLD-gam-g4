@@ -12,8 +12,7 @@ namespace py = pybind11;
 #include "G4Version.hh"
 #include "G4PVPlacement.hh"
 #include "G4LogicalVolume.hh"
-#include "G4RotationMatrix.hh"
-#include "G4ThreeVector.hh"
+#include "G4Exception.hh"
 
 void init_G4PVPlacement(py::module &m) {
     py::class_<G4PVPlacement, G4VPhysicalVolume>(m, "G4PVPlacement")
@@ -46,12 +45,13 @@ void init_G4PVPlacement(py::module &m) {
         .def(py::init<const G4Transform3D &, const G4String &,
             G4LogicalVolume *, G4VPhysicalVolume *, G4bool, G4int, G4bool>())
 
-            // FIXME
-        .def("CheckOverlaps", &G4PVPlacement::CheckOverlaps) //, f_CheckOverlaps())
+        .def("CheckOverlaps", &G4PVPlacement::CheckOverlaps)
 
-            // debug destructor
+        // debug destructor
+        /*
         .def("__del__",
              [](const G4PVPlacement &s) -> void {
                  std::cerr << "deleting G4PVPlacement " << s.GetName() << std::endl;
-             });
+             })
+             */;
 }

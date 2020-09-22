@@ -21,7 +21,7 @@ void init_G4VSolid(py::module &m) {
         .def("DumpInfo", &G4VSolid::DumpInfo)
         .def("StreamInfo", &G4VSolid::StreamInfo)
 
-        .def("__str__", [](const G4VSolid & s) {
+        .def("__str__", [](const G4VSolid &s) {
             std::ostringstream oss;
             s.StreamInfo(oss);
             return oss.str();
@@ -29,10 +29,6 @@ void init_G4VSolid(py::module &m) {
 
         .def("GetCubicVolume", &G4VSolid::GetCubicVolume)
         .def("GetSurfaceArea", &G4VSolid::GetSurfaceArea)
-        .def("GetPointOnSurface", &G4VSolid::GetPointOnSurface)
-
-        // operators
-        //.def(self == self)
-        ;
+        .def("GetPointOnSurface", &G4VSolid::GetPointOnSurface);
 }
 

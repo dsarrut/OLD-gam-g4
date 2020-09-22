@@ -20,6 +20,8 @@ void init_G4String(py::module &);
 
 void init_G4RotationMatrix(py::module &);
 
+void init_G4Transform3D(py::module &);
+
 void init_G4UnitsTable(py::module &);
 
 // CLHEP
@@ -150,6 +152,7 @@ PYBIND11_MODULE(gam_g4, m) {
     init_G4AffineTransform(m);
     init_G4String(m);
     init_G4RotationMatrix(m);
+    init_G4Transform3D(m);
     init_G4UnitsTable(m);
 
     init_Randomize(m);

@@ -10,12 +10,21 @@
 
 namespace py = pybind11;
 
+// CLHEP::HepRotation
 #include "G4RotationMatrix.hh"
 
 void init_G4RotationMatrix(py::module &m) {
+
+    py::class_<CLHEP::HepRep3x3>(m, "HepRep3x3")
+        .def(py::init<>())
+        .def(py::init<double, double, double,
+            double, double, double,
+            double, double, double>());
+
     py::class_<G4RotationMatrix>(m, "G4RotationMatrix")
 
         // constructors
+        .def(py::init<>())
         .def(py::init<const G4RotationMatrix &>())
 
             // property
@@ -68,6 +77,11 @@ void init_G4RotationMatrix(py::module &m) {
         .def("rotateAxes", &G4RotationMatrix::rotateAxes, py::return_value_policy::reference)
         .def("inverse", &G4RotationMatrix::inverse)
         .def("invert", &G4RotationMatrix::invert, py::return_value_policy::reference)
+
+        .def("rep3x3", &G4RotationMatrix::rep3x3)
+        .def("set", [](G4RotationMatrix &r, const CLHEP::HepRep3x3 &m) {
+            r.set(m);
+        })
 
             // operators
             //.def(py::self_ns::str(py::self))

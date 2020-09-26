@@ -15,10 +15,14 @@ namespace py = pybind11;
 void init_G4Element(py::module &m) {
 
     py::class_<G4Element>(m, "G4Element")
-        .def(py::init<const G4String &, G4double, G4double, G4double>())
-        .def(py::init<const G4String &, G4double, G4int>())
 
-            // stream output // FIXME not sure this is the right way to do
+        // name symbol Zeff Aeff
+        .def(py::init<const G4String &, const G4String &, G4double, G4double>())
+
+        // name symbol nbIsotopes
+        //.def(py::init<const G4String &, const G4String &, G4int>())
+
+        // stream output // FIXME not sure this is the right way to do
         .def("__repr__", [](const G4Element &Element) {
             std::ostringstream flux;
             flux << Element;

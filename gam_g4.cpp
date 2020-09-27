@@ -130,6 +130,10 @@ void init_G4VisManager(py::module &);
 
 void init_G4VisExecutive(py::module &);
 
+// graphics_rep
+
+void init_G4VisAttributes(py::module &);
+
 // interfaces
 
 void init_G4UIExecutive(py::module &);
@@ -218,6 +222,7 @@ PYBIND11_MODULE(gam_g4, m) {
 
     init_G4VisManager(m);
     init_G4VisExecutive(m);
+    init_G4VisAttributes(m);
 
     // interfaces
     init_QMainWindow(m);

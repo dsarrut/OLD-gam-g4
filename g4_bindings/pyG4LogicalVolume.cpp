@@ -81,6 +81,11 @@ void init_G4LogicalVolume(py::module &m) {
 
         .def("GetVisAttributes", &G4LogicalVolume::GetVisAttributes, py::return_value_policy::reference_internal)
 
+        .def("SetVisAttributes", [](G4LogicalVolume &lv, const G4VisAttributes *va) {
+                 lv.SetVisAttributes(va);
+             }
+        )
+
             // FIXME
             //.def("SetVisAttributes", f1_SetVisAttributes)
             //.def("SetVisAttributes", f2_SetVisAttributes)

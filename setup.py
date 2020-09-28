@@ -83,7 +83,7 @@ setup(
     # FIXME --> DO NOT USE YET
 
     name='gam_g4',
-    version='0.0.2',
+    version='0.0.3',
     author='Opengate Collaboration',
     author_email='david.sarrut@creatis.insa-lyon.fr',
     description='A test project using pybind11 and CMake',

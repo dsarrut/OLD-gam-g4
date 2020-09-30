@@ -16,17 +16,8 @@ namespace py = pybind11;
 
 void init_G4Material(py::module &m) {
 
-    /*py::enum_<G4State>(m, "G4State")
-        .value("kStateUndefined", G4State::kStateUndefined)
-        .value("kStateSolid", G4State::kStateSolid)
-        .value("kStateLiquid", G4State::kStateLiquid)
-        .value("kStateGas", G4State::kStateGas)
-        .export_values();
-        */
-
     py::class_<G4Material>(m, "G4Material")
-        //.def(py::init<const G4String &, G4double, G4double, G4double>())
-        //.def(py::init<const G4String &, G4double, G4int>())
+
         // name density nbcompo solid/gas temp pressure
         .def(py::init<const G4String &, G4double, G4int, G4State, G4double, G4double>())
 
@@ -37,11 +28,11 @@ void init_G4Material(py::module &m) {
             return flux.str();
         })
 
-        .def("AddElement", [](G4Material &m, G4Element *element, G4int nAtoms) {
-            m.AddElement(element, nAtoms);
+        .def("AddElement", [](G4Material &ma, G4Element *element, G4int nAtoms) {
+            ma.AddElement(element, nAtoms);
         })
-        .def("AddElement", [](G4Material &m, G4Element *element, G4double fraction) {
-            m.AddElement(element, fraction);
+        .def("AddElement", [](G4Material &ma, G4Element *element, G4double fraction) {
+            ma.AddElement(element, fraction);
         })
 
         .def("AddMaterial", &G4Material::AddMaterial)

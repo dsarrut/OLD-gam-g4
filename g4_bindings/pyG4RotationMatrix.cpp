@@ -79,8 +79,8 @@ void init_G4RotationMatrix(py::module &m) {
         .def("invert", &G4RotationMatrix::invert, py::return_value_policy::reference)
 
         .def("rep3x3", &G4RotationMatrix::rep3x3)
-        .def("set", [](G4RotationMatrix &r, const CLHEP::HepRep3x3 &m) {
-            r.set(m);
+        .def("set", [](G4RotationMatrix &r, const CLHEP::HepRep3x3 &mat) {
+            r.set(mat);
         })
 
             // operators

@@ -9,7 +9,7 @@
 FROM quay.io/pypa/manylinux2014_x86_64
 MAINTAINER Thomas Baudier <thomas.baudier@creatis.insa-lyon.fr>
 #Install packages
-RUN     yum install -y gcc wget git expat-devel fftw-devel qt5-qtbase-devel freeglut-devel \
+RUN     yum install -y gcc wget git expat-devel fftw-devel qt5-qtbase-devel freeglut-devel libXmu-devel \
 
 #Create folder
     &&  mkdir -p /software/cmake /software/geant4/src /software/geant4/bin /software/geant4/data /software/itk/src /software/itk/bin /software/wheelhouse \
@@ -24,7 +24,7 @@ RUN     yum install -y gcc wget git expat-devel fftw-devel qt5-qtbase-devel free
     &&  cd /software/geant4 \
     &&  git clone --branch v10.6.1 https://github.com/Geant4/geant4.git --depth 1 src \ 
     &&  cd bin \
-    &&  cmake -DGEANT4_INSTALL_DATA=ON -DGEANT4_INSTALL_DATADIR=/sofware/geant4/data -DGEANT4_USE_QT=ON ../src \
+    &&  cmake -DGEANT4_INSTALL_DATA=ON -DGEANT4_INSTALL_DATADIR=/sofware/geant4/data -DGEANT4_USE_QT=ON -DGEANT4_USE_OPENGL_X11=ON ../src \
     &&  make -j10 \
     &&  source /software/geant4/bin/geant4make.sh \
 

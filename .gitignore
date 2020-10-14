@@ -12,10 +12,11 @@
 /save/pyPhysicsLists.save.cpp
 
 /gam_g4/__pycache__
-/gam_g4/gam_g4.cpython-37m-x86_64-linux-gnu.so
 /gam_g4/geant4_data/
+/gam_g4/*.so
 
 /.idea
+/.idea_save
 
 .DS_Store
 

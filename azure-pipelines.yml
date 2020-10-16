@@ -163,6 +163,7 @@ jobs:
                     fftw \
                     llvm \
                     libomp \
+                    xquartz \
                     wget
       brew link qt5 --force && sudo ln -s /usr/local/opt/qt/mkspecs /usr/local/mkspecs && sudo ln -s /usr/local/opt/qt/plugins /usr/local/plugins
       export PATH=/usr/local/opt/qt/bin:$PATH

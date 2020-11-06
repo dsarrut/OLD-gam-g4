@@ -15,6 +15,11 @@ find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
 message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
 
+if(Geant4_multithreaded_FOUND)
+    message(STATUS "GAM - Geant4 is compiled with MT (MultiThread)")
+ENDIF()
+
+
 # QT in Geant4
 IF(Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
     message(STATUS "GAM - Geant4 is compiled with QT")

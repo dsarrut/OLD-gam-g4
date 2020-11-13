@@ -20,3 +20,6 @@
 
 .DS_Store
 
+/build_test/
+/gam_g4/g4_bindings/__pycache__
+/gam_g4/gam_lib/__pycache__

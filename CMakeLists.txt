@@ -8,7 +8,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(gam_g4)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # Need Geant4
 find_package(Geant4 REQUIRED qt)

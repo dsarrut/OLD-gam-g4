@@ -6,6 +6,10 @@
 # --------------------------------------------------
 
 cmake_minimum_required(VERSION 2.8.12)
+
+# remove warning about project version
+cmake_policy(SET CMP0048 NEW)
+
 project(gam_g4)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -15,17 +19,17 @@ find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
 message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
 
-if(Geant4_multithreaded_FOUND)
+if (Geant4_multithreaded_FOUND)
     message(STATUS "GAM - Geant4 is compiled with MT (MultiThread)")
-ENDIF()
+ENDIF ()
 
 
 # QT in Geant4
-IF(Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
+IF (Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
     message(STATUS "GAM - Geant4 is compiled with QT")
     FIND_PACKAGE(OpenGL QUIET)
     INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-ENDIF()
+ENDIF ()
 
 # Need pybind11
 add_subdirectory(pybind11)
@@ -74,5 +78,8 @@ if (WIN32)
     endif ()
 endif ()
 
-target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} ${ITK_LIBRARIES})
+#target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} ${ITK_LIBRARIES})
+find_package(Threads REQUIRED)
+target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
+
 # Do not not add ${PYTHON_LIBRARIES}) here (seg fault)

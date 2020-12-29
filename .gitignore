@@ -11,6 +11,11 @@
 /save_sync
 /save/pyPhysicsLists.save.cpp
 
+/geant4-multithreading-build-linux/
+/geant4-multithreading-build/
+/geant4-multithreading/
+/geant4.10.06-debug
+        
 /gam_g4/__pycache__
 /gam_g4/geant4_data/
 /gam_g4/*.so

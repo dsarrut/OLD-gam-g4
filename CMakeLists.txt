@@ -22,6 +22,7 @@ message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
 if (Geant4_multithreaded_FOUND)
     message(STATUS "GAM - Geant4 is compiled with MT (MultiThread)")
 ENDIF ()
+find_package(Threads REQUIRED)
 
 
 # QT in Geant4
@@ -78,8 +79,10 @@ if (WIN32)
     endif ()
 endif ()
 
-#target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} ${ITK_LIBRARIES})
-find_package(Threads REQUIRED)
+# correct one on OSX
+#target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
+
+#set(CMAKE_VERBOSE_MAKEFILE on)
 target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
 
 # Do not not add ${PYTHON_LIBRARIES}) here (seg fault)

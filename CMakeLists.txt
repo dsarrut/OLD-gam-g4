@@ -85,4 +85,9 @@ endif ()
 #set(CMAKE_VERBOSE_MAKEFILE on)
 target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
 
+## FIXME on linux need something like the following to avoid "cannot allocate memory in static TLS block"
+#export LD_PRELOAD=/home/dsarrut/src/geant4/build-geant4.10.07-debug-mt/BuildProducts/lib64/libG4processes.so
+#export LD_PRELOAD=/home/dsarrut/src/geant4/build-geant4.10.07-debug-mt/BuildProducts/lib64/libG4geometry.so
+
+
 # Do not not add ${PYTHON_LIBRARIES}) here (seg fault)

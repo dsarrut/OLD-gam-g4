@@ -3,7 +3,7 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, conda ]
     tags:
       - '*'
   pull_request:
@@ -41,8 +41,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/software
-        key: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_try2
-        restore-keys: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_try2
+        key: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda1
+        restore-keys: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda1
     - name: Create Wheel Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -120,11 +120,19 @@ jobs:
           fi
 
           cd $GITHUB_WORKSPACE
+          ls /usr/local/miniconda/envs/gam_g4/plugins/platforms
           source $HOME/software/geant4/bin/geant4make.sh
           export CMAKE_PREFIX_PATH=$HOME/software/geant4/bin:$HOME/software/itk/bin/:${CMAKE_PREFIX_PATH}
+          mkdir plugins
+          cp -r /usr/local/miniconda/envs/gam_g4/plugins/platforms plugins/
+          cp -r /usr/local/miniconda/envs/gam_g4/plugins/imageformats plugins/
+          mkdir plugins/miniconda
+          cp /usr/local/miniconda/envs/gam_g4/lib/libQt5Svg.5.9.7.dylib plugins/miniconda/
+          ls -a
+          python3 .github/workflows/redoQt5LibsMac.py
           python3 setup.py sdist bdist_wheel
           ls dist
-          export DYLD_LIBRARY_PATH=$HOME/software/geant4/bin/BuildProducts/lib:$DYLD_LIBRARY_PATH:/usr/local/miniconda/envs/gam_g4/lib
+          export DYLD_LIBRARY_PATH=$HOME/software/geant4/bin/BuildProducts/lib:/usr/local/miniconda/envs/gam_g4/plugins/platforms:$DYLD_LIBRARY_PATH:/usr/local/miniconda/envs/gam_g4/lib
           delocate-listdeps --all dist/*.whl
           delocate-wheel -w fixed_wheels -v dist/*.whl
           rm -rf dist

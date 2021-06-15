@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Need Geant4
 find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
-message(STATUS "GAM - Geant4 version = ${Geant4_VERSION}")
+message(STATUS "GAM - Geant4 version = ${Geant4_VERSION} in ${Geant4_INCLUDE_DIR}")
 
 if (Geant4_multithreaded_FOUND)
     message(STATUS "GAM - Geant4 is compiled with MT (MultiThread)")
@@ -28,8 +28,8 @@ find_package(Threads REQUIRED)
 # QT in Geant4
 IF (Geant4_qt_FOUND OR Geant4_vis_opengl_x11_FOUND)
     message(STATUS "GAM - Geant4 is compiled with QT")
-    FIND_PACKAGE(OpenGL QUIET)
-    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+    find_package(OpenGL QUIET)
+    include_directories(${OPENGL_INCLUDE_DIR})
 ENDIF ()
 
 # Need pybind11
@@ -46,6 +46,16 @@ if (ITK_FOUND)
 else (ITK_FOUND)
     message(FATAL_ERROR "Cannot build without ITK.  Please set ITK_DIR.")
 endif (ITK_FOUND)
+
+# root ?
+find_package(ROOT REQUIRED)
+if (ROOT_FOUND)
+    include_directories(${ROOT_INCLUDE_DIRS})
+    set(LINK_DIRECTORIES ${ROOT_LIBRARY_DIR})
+    message(STATUS "GAM - ROOT version = ${ROOT_VERSION} in ${ROOT_INCLUDE_DIRS} ${ROOT_LIBRARY_DIR}")
+else (ROOT_FOUND)
+    MESSAGE("Root not found! Please install Root and make it available in PATH")
+ENDIF()
 
 # -DCMAKE_CXX_FLAGS="-Wno-self-assign"
 
@@ -83,7 +93,7 @@ endif ()
 #target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
-target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
+target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES}  ${ROOT_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
 
 ## FIXME on linux need something like the following to avoid "cannot allocate memory in static TLS block"
 #export LD_PRELOAD=/home/dsarrut/src/geant4/build-geant4.10.07-debug-mt/BuildProducts/lib64/libG4processes.so

@@ -23,6 +23,7 @@ jobs:
     env:
       GEANT4_VERSION: 'v10.7.0'
       ITK_VERSION: 'v5.1.0'
+      ROOT_VERSION: 'v6-25-01'
 
     steps:
     - name: Checkout github repo
@@ -41,8 +42,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/software
-        key: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda2
-        restore-keys: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda2
+        key: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda3
+        restore-keys: ${{ runner.os }}-${{ steps.system-info.outputs.release }}_geant4_${{ env.GEANT4_VERSION }}_itk_${{ env.ITK_VERSION }}_tryConda3
     - name: Create Wheel Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -89,14 +90,15 @@ jobs:
           export PATH="/usr/local/miniconda/envs/gam_g4/bin/:$PATH"
           pip install wheel delocate
           conda install -c anaconda qt
+          conda install -c conda-forge root
 
           mkdir -p $HOME/software
           if [ "${{ steps.cache_gam_g4_dependencies.outputs.cache-hit }}" != 'true' ]; then
               cd $HOME/software
               mkdir geant4
               cd geant4
-              mkdir src bin install data
-              git clone  --branch $GEANT4_VERSION https://github.com/Geant4/geant4.git --depth 1 src
+              mkdir src bin data
+              git clone --branch $GEANT4_VERSION https://github.com/Geant4/geant4.git --depth 1 src
               cd bin
               cmake -DCMAKE_CXX_FLAGS=-std=c++17 \
                     -DGEANT4_INSTALL_DATA=ON \
@@ -125,23 +127,23 @@ jobs:
           cd $GITHUB_WORKSPACE
           ls /usr/local/miniconda/envs/gam_g4/plugins/platforms
           source $HOME/software/geant4/bin/geant4make.sh
-          export CMAKE_PREFIX_PATH=$HOME/software/geant4/bin:$HOME/software/itk/bin/:${CMAKE_PREFIX_PATH}
+          export CMAKE_PREFIX_PATH=$HOME/software/root/bin:$HOME/software/geant4/bin:$HOME/software/itk/bin/:${CMAKE_PREFIX_PATH}
           mkdir gam_g4/plugins
-          cp -r /usr/local/miniconda/envs/gam_g4/plugins/platforms gam_g4/plugins/
-          cp -r /usr/local/miniconda/envs/gam_g4/plugins/imageformats gam_g4/plugins/
+          #cp -r /usr/local/miniconda/envs/gam_g4/plugins/platforms gam_g4/plugins/
+          #cp -r /usr/local/miniconda/envs/gam_g4/plugins/imageformats gam_g4/plugins/
           mkdir gam_g4/plugins/miniconda
-          cp /usr/local/miniconda/envs/gam_g4/lib/libQt5Svg.5.9.7.dylib gam_g4/plugins/miniconda/
+          #cp /usr/local/miniconda/envs/gam_g4/lib/libQt5Svg.5.9.7.dylib gam_g4/plugins/miniconda/
           ls -a
-          python3 .github/workflows/redoQt5LibsMac.py
+          #python3 .github/workflows/redoQt5LibsMac.py
           python3 setup.py sdist bdist_wheel
           ls dist
-          export DYLD_LIBRARY_PATH=$HOME/software/geant4/bin/BuildProducts/lib:/usr/local/miniconda/envs/gam_g4/plugins/platforms:$DYLD_LIBRARY_PATH:/usr/local/miniconda/envs/gam_g4/lib
+          export DYLD_LIBRARY_PATH=$HOME/software/root/bin/lib:$HOME/software/geant4/bin/BuildProducts/lib:/usr/local/miniconda/envs/gam_g4/plugins/platforms:$DYLD_LIBRARY_PATH:/usr/local/miniconda/envs/gam_g4/lib
           delocate-listdeps --all dist/*.whl
-          delocate-wheel -w fixed_wheels -v dist/*.whl
-          rm -rf dist
-          ls fixed_wheels
-          delocate-listdeps --all fixed_wheels/*.whl
-          mv fixed_wheels dist
+          #delocate-wheel -w fixed_wheels -v dist/*.whl
+          #rm -rf dist
+          #ls fixed_wheels
+          #delocate-listdeps --all fixed_wheels/*.whl
+          #mv fixed_wheels dist
     - name: Upload wheels
       uses: actions/upload-artifact@v1
       with:

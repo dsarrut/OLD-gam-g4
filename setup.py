@@ -114,7 +114,7 @@ if platform.system() == "Darwin":
   package_data = {'gam_g4': ['plugins/platforms/*.dylib'] + ['plugins/imageformats/*.dylib'] + ['plugins/miniconda/libQt5Svg.5.9.7.dylib']}
   #package_data = {}
 else:
-  package_data = {}
+  package_data = {'gam_g4': ['plugins/*/*.so'] }
 
 setup(
 

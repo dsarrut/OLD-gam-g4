@@ -11,6 +11,7 @@ export CMAKE_PREFIX_PATH=/software/geant4/bin:/software/itk/bin/:${CMAKE_PREFIX_
 mkdir gam_g4/plugins
 cp -r /lib64/qt5/plugins/platforms gam_g4/plugins
 cp -r /lib64/qt5/plugins/imageformats gam_g4/plugins
+/opt/python/${PYTHONFOLDER}/bin/pip install wget
 /opt/python/${PYTHONFOLDER}/bin/python setup.py sdist bdist_wheel
 auditwheel repair /home/dist/*.whl -w /software/wheelhouse/ --plat "manylinux2014_x86_64"
 cp -r /software/wheelhouse /home/

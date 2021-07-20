@@ -48,7 +48,7 @@ else (ITK_FOUND)
 endif (ITK_FOUND)
 
 # fmt
-add_subdirectory(fmt)
+#add_subdirectory(fmt)
 
 # Create the geant4 python module
 file(GLOB all_SRCS
@@ -84,7 +84,7 @@ endif ()
 #target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
-target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES} fmt::fmt-header-only)
+target_link_libraries(gam_g4 PRIVATE pybind11::module ${Geant4_LIBRARIES} Threads::Threads ${ITK_LIBRARIES})  #fmt::fmt-header-only)
 
 ## FIXME on linux need something like the following to avoid "cannot allocate memory in static TLS block"
 #export LD_PRELOAD=/home/dsarrut/src/geant4/build-geant4.10.07-debug-mt/BuildProducts/lib64/libG4processes.so

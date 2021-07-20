@@ -89,7 +89,7 @@ jobs:
           which python
           python --version
           export PATH="/usr/local/miniconda/envs/gam_g4/bin/:$PATH"
-          pip install wheel delocate
+          pip install wheel delocate==0.8.2 wget
           conda install -c anaconda qt
           mkdir -p $HOME/software
           if [ "${{ steps.cache_gam_g4_dependencies.outputs.cache-hit }}" != 'true' ]; then
@@ -135,12 +135,12 @@ jobs:
           python3 setup.py sdist bdist_wheel
           ls dist
           export DYLD_LIBRARY_PATH=$HOME/software/geant4/bin/BuildProducts/lib:/usr/local/miniconda/envs/gam_g4/plugins/platforms:$DYLD_LIBRARY_PATH:/usr/local/miniconda/envs/gam_g4/lib
-          #delocate-listdeps --all dist/*.whl
-          #delocate-wheel -w fixed_wheels -v dist/*.whl
-          #rm -rf dist
-          #ls fixed_wheels
-          #delocate-listdeps --all fixed_wheels/*.whl
-          #mv fixed_wheels dist
+          delocate-listdeps --all dist/*.whl
+          delocate-wheel -w fixed_wheels -v dist/*.whl
+          rm -rf dist
+          ls fixed_wheels
+          delocate-listdeps --all fixed_wheels/*.whl
+          mv fixed_wheels dist
     - name: Upload wheels
       uses: actions/upload-artifact@v1
       with:

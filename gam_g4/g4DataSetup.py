@@ -6,17 +6,18 @@ import sys
 
 # Data for Geant4
 data_packages = [
-    "https://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4EMLOW.7.9.1.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.5.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.4.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.2.1.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.2.tar.gz",
-    "https://cern.ch/geant4-data/datasets/G4RealSurface.2.1.1.tar.gz"]
+     "https://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4EMLOW.7.13.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.7.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.6.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.3.1.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4RealSurface.2.2.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz",
+     "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"
+     ]
 
 
 # Check and download Geant4 data if not present:
@@ -90,14 +91,19 @@ def set_G4_data_path():
     g4DataPath = get_G4_data_path()
     for key, value in g4DataPath.items():
         os.environ[key] = value
-
-    g4libFolder = os.path.dirname(os.path.realpath(__file__)) + ".libs"
-    # print('DEBUG: current Geant4 lib', g4libFolder)
-    # print('DEBUG: current Geant4 data', get_G4_data_folder())
     s = platform.system()
+    if s == 'Linux':
+        g4libFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../gam_g4.libs")
+    elif s == 'Darwin':
+        g4libFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), ".dylibs")
+    #print('DEBUG: current Geant4 lib', g4libFolder)
+    #print('DEBUG: current Geant4 data', get_G4_data_folder())
     if s == 'Windows':
         os.add_dll_directory(g4libFolder)
     else:
         sys.path.append(g4libFolder)
     # sys.path.append(gam_g4_folder)
-    os.environ["LD_LIBRARY_PATH"] = g4libFolder
+    if not "LD_LIBRARY_PATH" in os.environ:
+        os.environ["LD_LIBRARY_PATH"] = ""
+    os.environ["LD_LIBRARY_PATH"] = g4libFolder + ":" + os.environ["LD_LIBRARY_PATH"]
+

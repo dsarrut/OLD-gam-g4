@@ -3,6 +3,7 @@ import re
 import sys
 import platform
 import subprocess
+import glob
 
 from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
@@ -109,6 +110,11 @@ class CMakeBuild(build_ext):
                               cwd=self.build_temp)
         print('-------------------->  FINAL')
 
+if platform.system() == "Darwin":
+  package_data = {'gam_g4': ['plugins/platforms/*.dylib'] + ['plugins/imageformats/*.dylib'] + ['plugins/miniconda/libQt5Svg.5.9.7.dylib']}
+  #package_data = {}
+else:
+  package_data = {'gam_g4': ['plugins/*/*.so'] }
 
 setup(
 
@@ -124,6 +130,7 @@ setup(
     ext_modules=[CMakeExtension('gam_g4')],
     cmdclass=dict(build_ext=CMakeBuild),
     packages=find_packages(),
+    package_data=package_data,
     zip_safe=False,
     python_requires='>=3.5',
     install_requires=[

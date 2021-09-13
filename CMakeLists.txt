@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Need Geant4
 find_package(Geant4 REQUIRED qt)
 include(${Geant4_USE_FILE})
-message(STATUS "GAM - Geant4 version = ${Geant4_VERSION} in ${Geant4_INCLUDE_DIR}")
+message(STATUS "GAM - Geant4 version ${Geant4_VERSION}")
 
 if (Geant4_multithreaded_FOUND)
     message(STATUS "GAM - Geant4 is compiled with MT (MultiThread)")

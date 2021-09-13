@@ -51,14 +51,16 @@ endif (ITK_FOUND)
 #add_subdirectory(fmt)
 
 # root ?
-find_package(ROOT REQUIRED)
-if (ROOT_FOUND)
-    include_directories(${ROOT_INCLUDE_DIRS})
-    set(LINK_DIRECTORIES ${ROOT_LIBRARY_DIR})
-    message(STATUS "GAM - ROOT version = ${ROOT_VERSION} in ${ROOT_INCLUDE_DIRS} ${ROOT_LIBRARY_DIR}")
-else (ROOT_FOUND)
-    MESSAGE("Root not found! Please install Root and make it available in PATH")
-ENDIF()
+#IF (FALSE)
+#find_package(ROOT)
+#if (ROOT_FOUND)
+#    include_directories(${ROOT_INCLUDE_DIRS})
+#    set(LINK_DIRECTORIES ${ROOT_LIBRARY_DIR})
+#    message(STATUS "GAM - ROOT version = ${ROOT_VERSION} in ${ROOT_INCLUDE_DIRS} ${ROOT_LIBRARY_DIR}")
+#else (ROOT_FOUND)
+#    MESSAGE("Root not found! Please install Root and make it available in PATH")
+#ENDIF()
+#ENDIF()
 
 
 # Create the geant4 python module

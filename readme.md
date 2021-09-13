@@ -64,6 +64,10 @@ Then compile:
 
 `make -j 12`
 
+And install : 
+
+`pip install -e .`
+
 ## 5) On linux
 
 Sometimes on Linux machine, you will need to add the following path to find dynamic library : 

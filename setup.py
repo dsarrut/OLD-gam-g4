@@ -19,7 +19,6 @@ class CMakeExtension(Extension):
 class CMakeBuild(build_ext):
 
     def run(self):
-        print('--------------------> hello')
         try:
             out = subprocess.check_output(['cmake', '--version'])
         except OSError:
@@ -32,18 +31,14 @@ class CMakeBuild(build_ext):
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
 
         for ext in self.extensions:
-            print('--------------------> ext', ext)
             self.build_extension(ext)
 
     def build_extension(self, ext):
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
         # required for auto-detection of auxiliary "native" libs
-        print('--------------------> extdir', extdir)
 
         if not extdir.endswith(os.path.sep):
             extdir += os.path.sep
-
-        print('--------------------> extdir2', extdir)
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DPYTHON_EXECUTABLE=' + sys.executable,
@@ -65,50 +60,33 @@ class CMakeBuild(build_ext):
         # cmake_args += ['-DCMAKE_CXX_FLAGS="-Wno-self-assign -Wno-extra-semi"']
         # cmake_args += ['-DITK_DIR=~/src/itk/build-v5.1.2']
 
-        print('--------------------> build_args', build_args)
-        print('--------------------> cmake_args', cmake_args)
-
         if platform.system() == "Windows":
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
             # cmake_args += ['-G "CodeBlocks - NMake Makefiles"']
             if sys.maxsize > 2 ** 32:
                 cmake_args += ['-A', 'x64']
             build_args += ['--', '/m']
-            print('build_arg', build_args)
-            print('cmake_arg', cmake_args)
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
             build_args += ['--', '-j4']
 
-        print('--------------------> build_args', build_args)
-        print('--------------------> cmake_args', cmake_args)
-        print('--------------------> pf', platform.system())
-
         env = os.environ.copy()
-        print('--------------------> Plartform ', env['PLAT'])
 
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
                                                               self.distribution.get_version())
 
-        print(f'-------------------->  CXXFLAGS = {env["CXXFLAGS"]}')
-
-        print('-------------------->  Build folder', self.build_temp)
-
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
 
-        print('-------------------->  env', env)
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
 
         # subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
-        print('-------------------->  after', ext.name)
 
         subprocess.check_call(['cmake',
                                '--build', '.',
                                '--target', ext.name
                                ] + build_args,
                               cwd=self.build_temp)
-        print('-------------------->  FINAL')
 
 if platform.system() == "Darwin":
   package_data = {'gam_g4': ['plugins/platforms/*.dylib'] + ['plugins/imageformats/*.dylib'] + ['plugins/miniconda/libQt5Svg.5.9.7.dylib']}

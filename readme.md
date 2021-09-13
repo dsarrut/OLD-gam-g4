@@ -33,7 +33,7 @@ See: https://docs.python.org/3/tutorial/venv.html
 
 ## 2) Install required software
 
-Install Geant4, with Multithreading on, and QT visualization.
+Install Geant4, with Multithreading=ON, and QT visualization. QT should work when install in the python environment, for example with `conda install qt`.
 
 Install ITK.
 

@@ -1,8 +1,4 @@
-
-
-# content
-
-This **experiment** is a **work in progress**. 
+This **experiment** is a **work in progress**. Even the name (gam) is temporary.
 
 This repository `gam_g4` contains C++ source code that maps some (not all!) Geant4 classes into one single Python module, in the folder `gam_g4/g'_bindings`
 

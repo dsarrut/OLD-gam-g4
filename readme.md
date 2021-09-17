@@ -87,4 +87,9 @@ a = gam_g4.G4ThreeVector(0)
 print(a)
 ```
 
+## 7) Start doing simulation 
+
+See https://github.com/OpenGamGate/gam and https://github.com/OpenGamGate/gam_tests
+
+
 

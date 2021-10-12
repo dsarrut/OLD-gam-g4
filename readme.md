@@ -3,7 +3,7 @@ This **experiment** is a **work in progress**. Even the name (gam) is temporary.
 - The folder `gam-g4/g4_bindings` contains C++ source code that maps some Geant4 classes into a Python module. 
 - The folder `gam-g4/gam_lib` contains additional C++ classes that extends Geant4 functionalities (also mapped to Python).
 
-At the end of the compilation process a single Python module is available, named `gam_g4` and is ready to use from the Python side via the `gam` python module: https://github.com/dsarrut/gam
+At the end of the compilation process a single Python module is available, named `gam-g4` and is ready to use from the Python side via the `gam` python module: https://github.com/dsarrut/gam-gam
 
 # How to install ?
 
@@ -40,7 +40,7 @@ Install [ITK](https://itk.org).
 
 ## 3) Clone the repository (with submodules!)
 
-`git clone --recurse-submodules  https://github.com/dsarrut/gam_g4`
+`git clone --recurse-submodules  https://github.com/dsarrut/gam-g4`
 
 ## 4) Compile the c++ part
 

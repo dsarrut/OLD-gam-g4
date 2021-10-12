@@ -7,7 +7,7 @@ At the end of the compilation process a single Python module is available, named
 
 # How to install ?
 
-Note1: the following installation is for developers. For user, a simple `pip install gam-gate` will be sufficient. 
+Note1: the following installation is for developers. For user, a simple `pip install gam-gate` will be sufficient (not yet).
 
 Note2: the process will be simplified.  
 
@@ -83,13 +83,14 @@ Start python: `python` and type `import gam_g4`. The first time, Geant4 data wil
 For example:
 
 ```
+import gam_g4
 a = gam_g4.G4ThreeVector(0)
 print(a)
 ```
 
 ## 7) Start doing simulation 
 
-See https://github.com/OpenGamGate/gam and https://github.com/OpenGamGate/gam_tests
+See https://github.com/dsarrut/gam-gate and https://github.com/OpenGamGate/gam_tests
 
 
 

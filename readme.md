@@ -3,11 +3,11 @@ This **experiment** is a **work in progress**. Even the name (gam) is temporary.
 - The folder `gam-g4/g4_bindings` contains C++ source code that maps some Geant4 classes into a Python module. 
 - The folder `gam-g4/gam_lib` contains additional C++ classes that extends Geant4 functionalities (also mapped to Python).
 
-At the end of the compilation process a single Python module is available, named `gam-g4` and is ready to use from the Python side via the `gam` python module: https://github.com/dsarrut/gam-gam
+At the end of the compilation process a single Python module is available, named `gam-g4` and is ready to use from the Python side via the `gam-gate` python module: https://github.com/dsarrut/gam-gate
 
 # How to install ?
 
-Note1: the following installation is for developers. For user, a simple `pip install gam` will be sufficient. 
+Note1: the following installation is for developers. For user, a simple `pip install gam-gate` will be sufficient. 
 
 Note2: the process will be simplified.  
 
